@@ -185,6 +185,30 @@
             {id:69,om:"2o BI Amv",classe:"IX",material:"VTE - AMB SPRINTER",qtdRecolher:1,status:"pendente",acao:"outros"}
         ];
 
+        const omOrder = [
+            "Bda Inf Amn (OI)",
+            "Cia C Bda Inf Amv",
+            "2o BI Amv",
+            "5o BI Amv",
+            "6o BI Amv",
+            "5a Bia AAAe Amv",
+            "20o GAC Amv",
+            "12a Cia Com Amv",
+            "12a Cia E Cmb Amv",
+            "12o Pel PE Amv",
+            "22o B Log Amv",
+            "1o Esqd C Amv"
+        ];
+        function omSort(a, b) {
+            const omA = Array.isArray(a) ? a[0] : a;
+            const omB = Array.isArray(b) ? b[0] : b;
+            const ia = omOrder.indexOf(omA);
+            const ib = omOrder.indexOf(omB);
+            const va = ia >= 0 ? ia : 999;
+            const vb = ib >= 0 ? ib : 999;
+            return va - vb;
+        }
+
         const data = JSON.parse(localStorage.getItem('controleMaterial')) || defaultData;
 
         const total = data.length;
@@ -235,7 +259,7 @@
 
         const omCounts = {};
         data.forEach(d => { omCounts[d.om] = (omCounts[d.om] || 0) + 1; });
-        const sortedOms = Object.entries(omCounts).sort((a,b) => b[1] - a[1]).slice(0, 10);
+        const sortedOms = Object.entries(omCounts).sort(omSort).slice(0, 15);
         new Chart(document.getElementById('chartOm'), {
             type: 'bar',
             data: { labels: sortedOms.map(e => e[0]), datasets: [{ label: 'Itens', data: sortedOms.map(e => e[1]), backgroundColor: '#6ba3be', borderRadius: 6 }] },
@@ -249,14 +273,14 @@
             if (d.status === 'homologada' || d.status === 'recolhido') omData[d.om].resolvidos++;
         });
 
-        const progressHtml = Object.entries(omData).sort((a,b) => (b[1].resolvidos/b[1].total) - (a[1].resolvidos/a[1].total)).map(([om, info]) => {
+        const progressHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
             const pct = Math.round((info.resolvidos / info.total) * 100);
             const cls = pct >= 80 ? 'blue' : pct >= 50 ? 'yellow' : 'red';
             return `<div class="progress-item"><div class="progress-header"><span class="progress-name">${om}</span><span class="progress-pct">${info.resolvidos}/${info.total} (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></div>`;
         }).join('');
         document.getElementById('progressList').innerHTML = progressHtml;
 
-        const tableHtml = Object.entries(omData).sort((a,b) => b[1].total - a[1].total).map(([om, info]) => {
+        const tableHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
             const hom = data.filter(d => d.om === om && d.status === 'homologada').length;
             const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
             const qr = data.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);

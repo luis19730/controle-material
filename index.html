@@ -283,10 +283,26 @@
         ];
 
         let data = JSON.parse(localStorage.getItem('controleMaterial')) || [...defaultData];
-        let filteredData = [...data];
+        let filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
         let sortDirection = {};
         let editingId = null;
         let deleteId = null;
+
+        const omOrder = [
+            "Bda Inf Amn (OI)",
+            "Cia C Bda Inf Amv",
+            "2o BI Amv",
+            "5o BI Amv",
+            "6o BI Amv",
+            "5a Bia AAAe Amv",
+            "20o GAC Amv",
+            "12a Cia Com Amv",
+            "12a Cia E Cmb Amv",
+            "12o Pel PE Amv",
+            "22o B Log Amv",
+            "1o Esqd C Amv"
+        ];
+        function getOmOrder(om) { const i = omOrder.indexOf(om); return i >= 0 ? i : 999; }
 
         function saveData() { localStorage.setItem('controleMaterial', JSON.stringify(data)); }
         function getNextId() { return data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1; }
@@ -355,7 +371,7 @@
             filteredData = data.filter(item => {
                 const ms = !search || item.om.toLowerCase().includes(search) || item.material.toLowerCase().includes(search) || item.eb34.toLowerCase().includes(search) || item.obs.toLowerCase().includes(search);
                 return ms && (!classe || item.classe === classe) && (!status || item.status === status) && (!acao || item.acao === acao);
-            });
+            }).sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
             renderTable();
         }
 
@@ -364,7 +380,7 @@
             document.getElementById('filterClasse').value = '';
             document.getElementById('filterStatus').value = '';
             document.getElementById('filterAcao').value = '';
-            filteredData = [...data];
+            filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
             renderTable();
         }
 
@@ -373,6 +389,11 @@
             const key = keys[ci];
             sortDirection[key] = !sortDirection[key];
             filteredData.sort((a, b) => {
+                if (key === 'om') {
+                    const va = getOmOrder(a.om);
+                    const vb = getOmOrder(b.om);
+                    return sortDirection[key] ? va - vb : vb - va;
+                }
                 let va = a[key], vb = b[key];
                 if (typeof va === 'number' && typeof vb === 'number') return sortDirection[key] ? va - vb : vb - va;
                 va = String(va).toLowerCase(); vb = String(vb).toLowerCase();
