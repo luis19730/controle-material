@@ -7,54 +7,54 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial Black', Arial, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        body { font-family: 'Arial Black', Arial, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #e0e0e0; }
         .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
         header { text-align: center; padding: 30px 0; background: rgba(255,255,255,0.05); border-radius: 15px; margin-bottom: 30px; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; gap: 20px; }
-        .logo { max-width: 100px; height: auto; filter: drop-shadow(0 0 10px rgba(0,212,255,0.3)); }
-        h1 { font-size: 2.2em; background: linear-gradient(90deg, #00d4ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .subtitle { color: #aaa; font-size: 1em; }
+        .logo { max-width: 100px; height: auto; filter: drop-shadow(0 0 10px rgba(107,163,190,0.3)); }
+        h1 { font-size: 2.2em; background: linear-gradient(90deg, #6ba3be, #7bc8a4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { color: #8a9aa5; font-size: 1em; }
         .nav { display: flex; gap: 10px; margin-bottom: 25px; }
-        .nav a { padding: 10px 20px; border-radius: 8px; background: rgba(255,255,255,0.08); color: #aaa; text-decoration: none; font-weight: bold; transition: all 0.3s; }
-        .nav a:hover, .nav a.active { background: linear-gradient(90deg, #00d4ff, #00ff88); color: #1a1a2e; }
+        .nav a { padding: 10px 20px; border-radius: 8px; background: rgba(255,255,255,0.08); color: #8a9aa5; text-decoration: none; font-weight: bold; transition: all 0.3s; }
+        .nav a:hover, .nav a.active { background: linear-gradient(90deg, #6ba3be, #7bc8a4); color: #1a1a2e; }
 
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .kpi-card { background: rgba(255,255,255,0.08); padding: 25px; border-radius: 12px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; border-left: 4px solid #00d4ff; }
-        .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,212,255,0.2); }
-        .kpi-card.warn { border-left-color: #ffe66d; }
-        .kpi-card.danger { border-left-color: #ff6b6b; }
-        .kpi-card.success { border-left-color: #00ff88; }
-        .kpi-card.info { border-left-color: #4ecdc4; }
+        .kpi-card { background: rgba(255,255,255,0.06); padding: 25px; border-radius: 12px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; border-left: 4px solid #6ba3be; }
+        .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(107,163,190,0.15); }
+        .kpi-card.warn { border-left-color: #d4b96a; }
+        .kpi-card.danger { border-left-color: #c97f7f; }
+        .kpi-card.success { border-left-color: #7bc8a4; }
+        .kpi-card.info { border-left-color: #6db5aa; }
         .kpi-value { font-size: 2.8em; font-weight: bold; margin-bottom: 5px; }
-        .kpi-value.blue { color: #00d4ff; }
-        .kpi-value.green { color: #00ff88; }
-        .kpi-value.yellow { color: #ffe66d; }
-        .kpi-value.red { color: #ff6b6b; }
-        .kpi-value.teal { color: #4ecdc4; }
-        .kpi-label { color: #aaa; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+        .kpi-value.blue { color: #6ba3be; }
+        .kpi-value.green { color: #7bc8a4; }
+        .kpi-value.yellow { color: #d4b96a; }
+        .kpi-value.red { color: #c97f7f; }
+        .kpi-value.teal { color: #6db5aa; }
+        .kpi-label { color: #8a9aa5; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
 
         .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px; margin-bottom: 30px; }
-        .chart-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; backdrop-filter: blur(10px); }
-        .chart-title { font-size: 1.1em; margin-bottom: 15px; color: #00d4ff; }
+        .chart-card { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 25px; backdrop-filter: blur(10px); }
+        .chart-title { font-size: 1.1em; margin-bottom: 15px; color: #6ba3be; }
         .chart-container { position: relative; height: 300px; }
 
         .progress-section { margin-bottom: 30px; }
-        .progress-title { font-size: 1.2em; margin-bottom: 15px; color: #00d4ff; }
-        .progress-item { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 15px 20px; margin-bottom: 10px; }
+        .progress-title { font-size: 1.2em; margin-bottom: 15px; color: #6ba3be; }
+        .progress-item { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 15px 20px; margin-bottom: 10px; }
         .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .progress-name { font-weight: bold; }
-        .progress-pct { color: #00d4ff; }
-        .progress-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden; }
+        .progress-name { font-weight: bold; color: #c8d4da; }
+        .progress-pct { color: #6ba3be; }
+        .progress-bar { height: 10px; background: rgba(255,255,255,0.08); border-radius: 5px; overflow: hidden; }
         .progress-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
-        .progress-fill.blue { background: linear-gradient(90deg, #00d4ff, #00ff88); }
-        .progress-fill.yellow { background: linear-gradient(90deg, #ffe66d, #ffd93d); }
-        .progress-fill.red { background: linear-gradient(90deg, #ff6b6b, #ff4757); }
+        .progress-fill.blue { background: linear-gradient(90deg, #6ba3be, #7bc8a4); }
+        .progress-fill.yellow { background: linear-gradient(90deg, #d4b96a, #c9a84c); }
+        .progress-fill.red { background: linear-gradient(90deg, #c97f7f, #b56b6b); }
 
-        .table-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; margin-bottom: 30px; overflow-x: auto; }
-        .table-card h3 { color: #00d4ff; margin-bottom: 15px; }
+        .table-card { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 25px; margin-bottom: 30px; overflow-x: auto; }
+        .table-card h3 { color: #6ba3be; margin-bottom: 15px; }
         table { width: 100%; border-collapse: collapse; }
-        th { padding: 12px; text-align: left; background: rgba(0,212,255,0.2); color: #00d4ff; font-size: 0.85em; text-transform: uppercase; }
-        td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9em; }
-        tr:hover { background: rgba(0,212,255,0.05); }
+        th { padding: 12px; text-align: left; background: rgba(107,163,190,0.15); color: #6ba3be; font-size: 0.85em; text-transform: uppercase; }
+        td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9em; color: #c8d4da; }
+        tr:hover { background: rgba(107,163,190,0.05); }
 
         footer { text-align: center; padding: 30px; margin-top: 20px; color: #666; font-size: 0.85em; }
         @media (max-width: 768px) { h1 { font-size: 1.5em; } .charts-grid { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -209,8 +209,8 @@
             <div class="kpi-card info"><div class="kpi-value teal">${alienacao}</div><div class="kpi-label">Alienacao</div></div>
         `;
 
-        const chartColors = ['#00d4ff','#00ff88','#ffe66d','#ff6b6b','#4ecdc4','#a8e6cf','#ff8e8e','#c9b1ff'];
-        Chart.defaults.color = '#aaa';
+        const chartColors = ['#6ba3be','#7bc8a4','#d4b96a','#c97f7f','#6db5aa','#a3c4b8','#b5a3a3','#9b8ec4'];
+        Chart.defaults.color = '#8a9aa5';
         Chart.defaults.font.family = 'Arial Black';
 
         const classes = {};
@@ -223,13 +223,13 @@
 
         new Chart(document.getElementById('chartStatus'), {
             type: 'doughnut',
-            data: { labels: ['Homologadas','Pendentes','Recolhidos'], datasets: [{ data: [homologadas, pendentes, recolhidos], backgroundColor: ['#00ff88','#ffe66d','#ff6b6b'], borderWidth: 0 }] },
+            data: { labels: ['Homologadas','Pendentes','Recolhidos'], datasets: [{ data: [homologadas, pendentes, recolhidos], backgroundColor: ['#7bc8a4','#d4b96a','#c97f7f'], borderWidth: 0 }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
         });
 
         new Chart(document.getElementById('chartAcao'), {
             type: 'pie',
-            data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, data.filter(d => d.acao === 'outros').length], backgroundColor: ['#ff6b6b','#4ecdc4','#ffe66d'], borderWidth: 0 }] },
+            data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, data.filter(d => d.acao === 'outros').length], backgroundColor: ['#c97f7f','#6db5aa','#d4b96a'], borderWidth: 0 }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
         });
 
@@ -238,7 +238,7 @@
         const sortedOms = Object.entries(omCounts).sort((a,b) => b[1] - a[1]).slice(0, 10);
         new Chart(document.getElementById('chartOm'), {
             type: 'bar',
-            data: { labels: sortedOms.map(e => e[0]), datasets: [{ label: 'Itens', data: sortedOms.map(e => e[1]), backgroundColor: '#00d4ff', borderRadius: 6 }] },
+            data: { labels: sortedOms.map(e => e[0]), datasets: [{ label: 'Itens', data: sortedOms.map(e => e[1]), backgroundColor: '#6ba3be', borderRadius: 6 }] },
             options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' } }, y: { grid: { display: false } } } }
         });
 
@@ -261,7 +261,7 @@
             const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
             const qr = data.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);
             const pct = Math.round((info.resolvidos / info.total) * 100);
-            return `<tr><td><strong>${om}</strong></td><td>${info.total}</td><td style="color:#00ff88">${hom}</td><td style="color:#ffe66d">${pend}</td><td>${qr}</td><td style="color:${pct>=80?'#00ff88':pct>=50?'#ffe66d':'#ff6b6b'}">${pct}%</td></tr>`;
+            return `<tr><td><strong>${om}</strong></td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
         }).join('');
         document.getElementById('omTable').innerHTML = tableHtml;
     </script>
