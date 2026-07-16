@@ -12,10 +12,10 @@
         .logo { max-width: 150px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(0,212,255,0.3)); }
         h1 { font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(90deg, #00d4ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .subtitle { color: #aaa; font-size: 1.1em; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 25px; }
-        .tab { padding: 12px 30px; border: none; border-radius: 8px; background: rgba(255,255,255,0.08); color: #aaa; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s; }
-        .tab:hover { background: rgba(255,255,255,0.12); color: #fff; }
-        .tab.active { background: linear-gradient(90deg, #00d4ff, #00ff88); color: #1a1a2e; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tabs a, .tab { padding: 12px 30px; border: none; border-radius: 8px; background: rgba(255,255,255,0.08); color: #aaa; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .tabs a:hover, .tab:hover { background: rgba(255,255,255,0.12); color: #fff; }
+        .tabs a.active, .tab.active { background: linear-gradient(90deg, #00d4ff, #00ff88); color: #1a1a2e; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
@@ -91,6 +91,7 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('consulta')">Consulta</button>
             <button class="tab" onclick="switchTab('cadastro')">Cadastro / Edicao</button>
+            <a href="painel.html" class="active">Painel de Indicadores</a>
         </div>
 
         <div id="tab-consulta" class="tab-content active">
