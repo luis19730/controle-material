@@ -58,6 +58,7 @@
 
         footer { text-align: center; padding: 30px; margin-top: 20px; color: #666; font-size: 0.85em; }
         @media (max-width: 768px) { h1 { font-size: 1.5em; } .charts-grid { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media print { .nav { display: none !important; } body { background: #fff; color: #000; } .kpi-card, .chart-card, .table-card { background: #fff; border: 1px solid #ccc; } }
     </style>
 </head>
 <body>
@@ -73,6 +74,7 @@
         <div class="nav">
             <a href="index.html">Consulta</a>
             <a class="active">Painel</a>
+            <a href="javascript:window.print()" style="background:linear-gradient(90deg, #d4b96a, #c9a84c); color:#1a1a2e;">Imprimir</a>
         </div>
 
         <div class="kpi-grid" id="kpiGrid"></div>
