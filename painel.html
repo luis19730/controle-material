@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Indicadores - Bda Inf Amv</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial Black', Arial, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 0; background: rgba(255,255,255,0.05); border-radius: 15px; margin-bottom: 30px; backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .logo { max-width: 100px; height: auto; filter: drop-shadow(0 0 10px rgba(0,212,255,0.3)); }
+        h1 { font-size: 2.2em; background: linear-gradient(90deg, #00d4ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { color: #aaa; font-size: 1em; }
+        .nav { display: flex; gap: 10px; margin-bottom: 25px; }
+        .nav a { padding: 10px 20px; border-radius: 8px; background: rgba(255,255,255,0.08); color: #aaa; text-decoration: none; font-weight: bold; transition: all 0.3s; }
+        .nav a:hover, .nav a.active { background: linear-gradient(90deg, #00d4ff, #00ff88); color: #1a1a2e; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .kpi-card { background: rgba(255,255,255,0.08); padding: 25px; border-radius: 12px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; border-left: 4px solid #00d4ff; }
+        .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,212,255,0.2); }
+        .kpi-card.warn { border-left-color: #ffe66d; }
+        .kpi-card.danger { border-left-color: #ff6b6b; }
+        .kpi-card.success { border-left-color: #00ff88; }
+        .kpi-card.info { border-left-color: #4ecdc4; }
+        .kpi-value { font-size: 2.8em; font-weight: bold; margin-bottom: 5px; }
+        .kpi-value.blue { color: #00d4ff; }
+        .kpi-value.green { color: #00ff88; }
+        .kpi-value.yellow { color: #ffe66d; }
+        .kpi-value.red { color: #ff6b6b; }
+        .kpi-value.teal { color: #4ecdc4; }
+        .kpi-label { color: #aaa; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .chart-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; backdrop-filter: blur(10px); }
+        .chart-title { font-size: 1.1em; margin-bottom: 15px; color: #00d4ff; }
+        .chart-container { position: relative; height: 300px; }
+
+        .progress-section { margin-bottom: 30px; }
+        .progress-title { font-size: 1.2em; margin-bottom: 15px; color: #00d4ff; }
+        .progress-item { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 15px 20px; margin-bottom: 10px; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .progress-name { font-weight: bold; }
+        .progress-pct { color: #00d4ff; }
+        .progress-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+        .progress-fill.blue { background: linear-gradient(90deg, #00d4ff, #00ff88); }
+        .progress-fill.yellow { background: linear-gradient(90deg, #ffe66d, #ffd93d); }
+        .progress-fill.red { background: linear-gradient(90deg, #ff6b6b, #ff4757); }
+
+        .table-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; margin-bottom: 30px; overflow-x: auto; }
+        .table-card h3 { color: #00d4ff; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 12px; text-align: left; background: rgba(0,212,255,0.2); color: #00d4ff; font-size: 0.85em; text-transform: uppercase; }
+        td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9em; }
+        tr:hover { background: rgba(0,212,255,0.05); }
+
+        footer { text-align: center; padding: 30px; margin-top: 20px; color: #666; font-size: 0.85em; }
+        @media (max-width: 768px) { h1 { font-size: 1.5em; } .charts-grid { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="logo.png" alt="Logo" class="logo">
+            <div>
+                <h1>PAINEL DE INDICADORES</h1>
+                <p class="subtitle">BDA INF AMV - Controle de Material | Julho 2026</p>
+            </div>
+        </header>
+
+        <div class="nav">
+            <a href="index.html">Consulta</a>
+            <a class="active">Painel</a>
+        </div>
+
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">Materiais por Classe</div>
+                <div class="chart-container"><canvas id="chartClasse"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Status dos Processos</div>
+                <div class="chart-container"><canvas id="chartStatus"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Acoes Previstas</div>
+                <div class="chart-container"><canvas id="chartAcao"></canvas></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Itens por OM (Top 10)</div>
+                <div class="chart-container"><canvas id="chartOm"></canvas></div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-title">Progresso por OM - Materiais Resolvidos vs Pendentes</div>
+            <div id="progressList"></div>
+        </div>
+
+        <div class="table-card">
+            <h3>Resumo por Organizacao Militar</h3>
+            <table>
+                <thead><tr><th>OM</th><th>Total Itens</th><th>Homologadas</th><th>Pendentes</th><th>Qtd a Recolher</th><th>% Resolvido</th></tr></thead>
+                <tbody id="omTable"></tbody>
+            </table>
+        </div>
+
+        <footer>Sistema de Controle de Material Militar | BDA INF AMV</footer>
+    </div>
+
+    <script>
+        const defaultData = [
+            {id:1,om:"12a Cia Com Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:48,status:"homologada",acao:"destruicao"},
+            {id:2,om:"12a Cia Com Amv",classe:"IX",material:"VTE - COM - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:3,om:"12a Cia Com Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"XX",status:"pendente",acao:"outros"},
+            {id:4,om:"12a Cia E Cmb Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:5,om:"12a Cia E Cmb Amv",classe:"IX",material:"VTP - PALIO",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:6,om:"12a Cia E Cmb Amv",classe:"IX",material:"VTP - KOMBI",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:7,om:"12a Cia E Cmb Amv",classe:"IX",material:"VTNE MBB 5T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:8,om:"12a Cia E Cmb Amv",classe:"VI",material:"COLETE SALVA-VIDAS",qtdRecolher:50,status:"homologada",acao:"outros"},
+            {id:9,om:"12a Cia E Cmb Amv",classe:"VI",material:"MOTOR DE POPA",qtdRecolher:10,status:"homologada",acao:"outros"},
+            {id:10,om:"12a Cia E Cmb Amv",classe:"VI",material:"EMBARCACAO DE REC",qtdRecolher:1,status:"homologada",acao:"outros"},
+            {id:11,om:"12a Cia E Cmb Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:12,om:"12a Cia E Cmb Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:13,om:"12o Pel PE Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:84,status:"homologada",acao:"destruicao"},
+            {id:14,om:"12o Pel PE Amv",classe:"IX",material:"VTP - FIESTA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:15,om:"20o GAC Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"XX",status:"pendente",acao:"outros"},
+            {id:16,om:"20o GAC Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:"XX",status:"pendente",acao:"outros"},
+            {id:17,om:"22o B Log Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:125,status:"homologada",acao:"destruicao"},
+            {id:18,om:"22o B Log Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:243,status:"homologada",acao:"destruicao"},
+            {id:19,om:"22o B Log Amv",classe:"IX",material:"VRNE 1T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:20,om:"22o B Log Amv",classe:"IX",material:"VTP - OPALA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:21,om:"22o B Log Amv",classe:"IX",material:"VTNE - 1T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:22,om:"22o B Log Amv",classe:"IX",material:"VTNE - 1T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:23,om:"22o B Log Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:24,om:"22o B Log Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:25,om:"22o B Log Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:26,om:"2o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:183,status:"homologada",acao:"destruicao"},
+            {id:27,om:"2o BI Amv",classe:"IX",material:"VTP - FIESTA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:28,om:"2o BI Amv",classe:"IX",material:"VTP - PALIO",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:29,om:"2o BI Amv",classe:"IX",material:"VRE - CIST AGUA",qtdRecolher:2,status:"homologada",acao:"alienacao"},
+            {id:30,om:"2o BI Amv",classe:"IX",material:"VRE - 1 A/2T",qtdRecolher:2,status:"homologada",acao:"alienacao"},
+            {id:31,om:"2o BI Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:32,om:"2o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"XX",status:"pendente",acao:"outros"},
+            {id:33,om:"2o BI Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:"XX",status:"pendente",acao:"outros"},
+            {id:34,om:"5a Bia AAAe Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:35,om:"5a Bia AAAe Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:36,om:"5a Bia AAAe Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:37,om:"5o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:424,status:"homologada",acao:"destruicao"},
+            {id:38,om:"5o BI Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:225,status:"homologada",acao:"destruicao"},
+            {id:39,om:"5o BI Amv",classe:"II",material:"PLACA DE PROTECAO BALISTICA",qtdRecolher:244,status:"homologada",acao:"destruicao"},
+            {id:40,om:"5o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:154,status:"homologada",acao:"destruicao"},
+            {id:41,om:"5o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:154,status:"homologada",acao:"destruicao"},
+            {id:42,om:"5o BI Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:43,om:"5o BI Amv",classe:"IX",material:"VRE - 1/2T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:44,om:"5o BI Amv",classe:"IX",material:"VTNE MBB 5T",qtdRecolher:2,status:"homologada",acao:"alienacao"},
+            {id:45,om:"6o BI Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:383,status:"homologada",acao:"destruicao"},
+            {id:46,om:"6o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:32,status:"homologada",acao:"destruicao"},
+            {id:47,om:"6o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:95,status:"homologada",acao:"destruicao"},
+            {id:48,om:"6o BI Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:124,status:"homologada",acao:"destruicao"},
+            {id:49,om:"6o BI Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:204,status:"homologada",acao:"destruicao"},
+            {id:50,om:"6o BI Amv",classe:"IX",material:"VTNE MBB 5T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:51,om:"6o BI Amv",classe:"IX",material:"VTNE MBB 5T",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:52,om:"6o BI Amv",classe:"IX",material:"VTP - MOTOCICLETA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:53,om:"6o BI Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:4,status:"homologada",acao:"alienacao"},
+            {id:54,om:"6o BI Amv",classe:"IX",material:"VTE - CISTERNA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:55,om:"Bda Inf Amn (OI)",classe:"V",material:"BINOCULO ZENITH",qtdRecolher:2,status:"homologada",acao:"outros"},
+            {id:56,om:"Bda Inf Amn (OI)",classe:"V",material:"BINOCULO M48",qtdRecolher:2,status:"homologada",acao:"outros"},
+            {id:57,om:"Bda Inf Amn (OI)",classe:"V",material:"LUNETA BSHNELL",qtdRecolher:1,status:"homologada",acao:"outros"},
+            {id:58,om:"Cia C Bda Inf Amv",classe:"II",material:"COLETE BALISTICO",qtdRecolher:10,status:"homologada",acao:"destruicao"},
+            {id:59,om:"Cia C Bda Inf Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:44,status:"homologada",acao:"destruicao"},
+            {id:60,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTNE - LAND ROVER",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:61,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTNE - MARRUA",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:62,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTP - SANTANA",qtdRecolher:2,status:"homologada",acao:"alienacao"},
+            {id:63,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTP - PALIO",qtdRecolher:1,status:"homologada",acao:"alienacao"},
+            {id:64,om:"Cia C Bda Inf Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:65,om:"1o Esqd C Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:"-",status:"pendente",acao:"outros"},
+            {id:66,om:"1o Esqd C Amv",classe:"II",material:"CAPACETE BALISTICO",qtdRecolher:446,status:"recolhido",acao:"outros"},
+            {id:67,om:"2o BI Amv",classe:"IX",material:"VTNE - LAND ROVER 130",qtdRecolher:1,status:"pendente",acao:"outros"},
+            {id:68,om:"2o BI Amv",classe:"IX",material:"VTP - FIESTA",qtdRecolher:1,status:"pendente",acao:"outros"},
+            {id:69,om:"2o BI Amv",classe:"IX",material:"VTE - AMB SPRINTER",qtdRecolher:1,status:"pendente",acao:"outros"}
+        ];
+
+        const data = JSON.parse(localStorage.getItem('controleMaterial')) || defaultData;
+
+        const total = data.length;
+        const oms = [...new Set(data.map(d => d.om))];
+        const homologadas = data.filter(d => d.status === 'homologada').length;
+        const pendentes = data.filter(d => d.status === 'pendente').length;
+        const recolhidos = data.filter(d => d.status === 'recolhido').length;
+        const qtdRecolher = data.reduce((s, d) => s + (typeof d.qtdRecolher === 'number' ? d.qtdRecolher : 0), 0);
+        const resolvidos = homologadas + recolhidos;
+        const pctResolvido = total > 0 ? Math.round((resolvidos / total) * 100) : 0;
+        const destruicao = data.filter(d => d.acao === 'destruicao').length;
+        const alienacao = data.filter(d => d.acao === 'alienacao').length;
+
+        document.getElementById('kpiGrid').innerHTML = `
+            <div class="kpi-card"><div class="kpi-value blue">${total}</div><div class="kpi-label">Total de Itens</div></div>
+            <div class="kpi-card info"><div class="kpi-value teal">${oms.length}</div><div class="kpi-label">OMs Envolvidas</div></div>
+            <div class="kpi-card success"><div class="kpi-value green">${homologadas}</div><div class="kpi-label">DCGs Homologadas</div></div>
+            <div class="kpi-card warn"><div class="kpi-value yellow">${pendentes}</div><div class="kpi-label">Processos Pendentes</div></div>
+            <div class="kpi-card danger"><div class="kpi-value red">${qtdRecolher}</div><div class="kpi-label">Qtd Total a Recolher</div></div>
+            <div class="kpi-card success"><div class="kpi-value green">${pctResolvido}%</div><div class="kpi-label">Taxa de Resolucao</div></div>
+            <div class="kpi-card danger"><div class="kpi-value red">${destruicao}</div><div class="kpi-label">Destruicao</div></div>
+            <div class="kpi-card info"><div class="kpi-value teal">${alienacao}</div><div class="kpi-label">Alienacao</div></div>
+        `;
+
+        const chartColors = ['#00d4ff','#00ff88','#ffe66d','#ff6b6b','#4ecdc4','#a8e6cf','#ff8e8e','#c9b1ff'];
+        Chart.defaults.color = '#aaa';
+        Chart.defaults.font.family = 'Arial Black';
+
+        const classes = {};
+        data.forEach(d => { classes[d.classe] = (classes[d.classe] || 0) + 1; });
+        new Chart(document.getElementById('chartClasse'), {
+            type: 'doughnut',
+            data: { labels: Object.keys(classes), datasets: [{ data: Object.values(classes), backgroundColor: chartColors, borderWidth: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
+        });
+
+        new Chart(document.getElementById('chartStatus'), {
+            type: 'doughnut',
+            data: { labels: ['Homologadas','Pendentes','Recolhidos'], datasets: [{ data: [homologadas, pendentes, recolhidos], backgroundColor: ['#00ff88','#ffe66d','#ff6b6b'], borderWidth: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
+        });
+
+        new Chart(document.getElementById('chartAcao'), {
+            type: 'pie',
+            data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, data.filter(d => d.acao === 'outros').length], backgroundColor: ['#ff6b6b','#4ecdc4','#ffe66d'], borderWidth: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
+        });
+
+        const omCounts = {};
+        data.forEach(d => { omCounts[d.om] = (omCounts[d.om] || 0) + 1; });
+        const sortedOms = Object.entries(omCounts).sort((a,b) => b[1] - a[1]).slice(0, 10);
+        new Chart(document.getElementById('chartOm'), {
+            type: 'bar',
+            data: { labels: sortedOms.map(e => e[0]), datasets: [{ label: 'Itens', data: sortedOms.map(e => e[1]), backgroundColor: '#00d4ff', borderRadius: 6 }] },
+            options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' } }, y: { grid: { display: false } } } }
+        });
+
+        const omData = {};
+        data.forEach(d => {
+            if (!omData[d.om]) omData[d.om] = { total: 0, resolvidos: 0 };
+            omData[d.om].total++;
+            if (d.status === 'homologada' || d.status === 'recolhido') omData[d.om].resolvidos++;
+        });
+
+        const progressHtml = Object.entries(omData).sort((a,b) => (b[1].resolvidos/b[1].total) - (a[1].resolvidos/a[1].total)).map(([om, info]) => {
+            const pct = Math.round((info.resolvidos / info.total) * 100);
+            const cls = pct >= 80 ? 'blue' : pct >= 50 ? 'yellow' : 'red';
+            return `<div class="progress-item"><div class="progress-header"><span class="progress-name">${om}</span><span class="progress-pct">${info.resolvidos}/${info.total} (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></div>`;
+        }).join('');
+        document.getElementById('progressList').innerHTML = progressHtml;
+
+        const tableHtml = Object.entries(omData).sort((a,b) => b[1].total - a[1].total).map(([om, info]) => {
+            const hom = data.filter(d => d.om === om && d.status === 'homologada').length;
+            const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
+            const qr = data.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);
+            const pct = Math.round((info.resolvidos / info.total) * 100);
+            return `<tr><td><strong>${om}</strong></td><td>${info.total}</td><td style="color:#00ff88">${hom}</td><td style="color:#ffe66d">${pend}</td><td>${qr}</td><td style="color:${pct>=80?'#00ff88':pct>=50?'#ffe66d':'#ff6b6b'}">${pct}%</td></tr>`;
+        }).join('');
+        document.getElementById('omTable').innerHTML = tableHtml;
+    </script>
+</body>
+</html>
