@@ -66,7 +66,7 @@
             <img src="logo.png" alt="Logo" class="logo">
             <div>
                 <h1>PAINEL DE INDICADORES</h1>
-                <p class="subtitle">BDA INF AMV - Controle de Material | Julho 2026</p>
+                <p class="subtitle">BDA INF AMV - Controle de Material | Atualizado em <span id="currentDate"></span></p>
             </div>
         </header>
 
@@ -265,6 +265,10 @@
             return `<tr><td><strong>${om}</strong></td><td style="max-width:350px;font-size:0.8em;color:#8a9aa5">${materiais}</td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
         }).join('');
         document.getElementById('omTable').innerHTML = tableHtml;
+
+        const today = new Date();
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('pt-BR', options);
     </script>
 </body>
 </html>

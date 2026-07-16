@@ -85,7 +85,7 @@
         <header>
             <img src="logo.png" alt="Logo BDA Inf Amv" class="logo">
             <h1>CONTROLE DE MATERIAL</h1>
-            <p class="subtitle">BDA INF AMV - Necessidade de Material | Atualizado em Julho 2026</p>
+            <p class="subtitle">BDA INF AMV - Necessidade de Material | Atualizado em <span id="currentDate"></span></p>
         </header>
 
         <div class="tabs">
@@ -469,6 +469,10 @@
         document.getElementById('filterClasse').addEventListener('change', filterData);
         document.getElementById('filterStatus').addEventListener('change', filterData);
         document.getElementById('filterAcao').addEventListener('change', filterData);
+
+        const today = new Date();
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('pt-BR', options);
 
         renderTable();
     </script>
