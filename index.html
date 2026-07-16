@@ -298,7 +298,8 @@
         ];
         function getOmOrder(om) { const i = omOrder.indexOf(om); return i >= 0 ? i : 999; }
 
-        let data = JSON.parse(localStorage.getItem('controleMaterial')) || [...defaultData];
+        let data = JSON.parse(localStorage.getItem('controleMaterial'));
+        if (!data || data.length === 0) data = [...defaultData];
         let filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
         let sortDirection = {};
         let editingId = null;

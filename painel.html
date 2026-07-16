@@ -209,7 +209,8 @@
             return va - vb;
         }
 
-        const data = JSON.parse(localStorage.getItem('controleMaterial')) || defaultData;
+        const rawData = JSON.parse(localStorage.getItem('controleMaterial'));
+        const data = (!rawData || rawData.length === 0) ? defaultData : rawData;
 
         const total = data.length;
         const oms = [...new Set(data.map(d => d.om))];
