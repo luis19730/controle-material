@@ -104,7 +104,7 @@
         <div class="table-card">
             <h3>Resumo por Organizacao Militar</h3>
             <table>
-                <thead><tr><th>OM</th><th>Total Itens</th><th>Homologadas</th><th>Pendentes</th><th>Qtd a Recolher</th><th>% Resolvido</th></tr></thead>
+                <thead><tr><th>OM</th><th>Materiais</th><th>Total Itens</th><th>Homologadas</th><th>Pendentes</th><th>Qtd a Recolher</th><th>% Resolvido</th></tr></thead>
                 <tbody id="omTable"></tbody>
             </table>
         </div>
@@ -261,7 +261,8 @@
             const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
             const qr = data.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);
             const pct = Math.round((info.resolvidos / info.total) * 100);
-            return `<tr><td><strong>${om}</strong></td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
+            const materiais = [...new Set(data.filter(d => d.om === om).map(d => d.material))].join(', ');
+            return `<tr><td><strong>${om}</strong></td><td style="max-width:350px;font-size:0.8em;color:#8a9aa5">${materiais}</td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
         }).join('');
         document.getElementById('omTable').innerHTML = tableHtml;
     </script>
