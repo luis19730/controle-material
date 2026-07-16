@@ -282,12 +282,6 @@
             {id:69,om:"2o BI Amv",classe:"IX",material:"VTE - AMB SPRINTER",eb34:"73018033",qtdOm:"XX",qtdRecolher:1,odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"}
         ];
 
-        let data = JSON.parse(localStorage.getItem('controleMaterial')) || [...defaultData];
-        let filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
-        let sortDirection = {};
-        let editingId = null;
-        let deleteId = null;
-
         const omOrder = [
             "Bda Inf Amn (OI)",
             "Cia C Bda Inf Amv",
@@ -303,6 +297,12 @@
             "1o Esqd C Amv"
         ];
         function getOmOrder(om) { const i = omOrder.indexOf(om); return i >= 0 ? i : 999; }
+
+        let data = JSON.parse(localStorage.getItem('controleMaterial')) || [...defaultData];
+        let filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
+        let sortDirection = {};
+        let editingId = null;
+        let deleteId = null;
 
         function saveData() { localStorage.setItem('controleMaterial', JSON.stringify(data)); }
         function getNextId() { return data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1; }
