@@ -54,6 +54,29 @@
 
         .report-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #888; font-size: 0.8em; }
 
+        @media (max-width: 768px) {
+            .screen-header h1 { font-size: 1.5em; }
+            .nav-links { gap: 8px; }
+            .btn { padding: 8px 16px; font-size: 0.85em; }
+            .report { padding: 20px 15px; }
+            .report-header h2 { font-size: 1.1em; }
+            .report-header h3 { font-size: 0.9em; }
+            .kpi-report { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .kpi-item { padding: 12px; }
+            .kpi-number { font-size: 1.8em; }
+            .kpi-label { font-size: 0.75em; }
+            .om-shortcuts { gap: 5px; }
+            .om-shortcut { padding: 6px 10px; font-size: 0.7em; }
+            .om-title { font-size: 1em; padding: 8px 12px; }
+            .om-kpis { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .om-kpi { padding: 10px; }
+            .om-kpi-value { font-size: 1.3em; }
+            .om-kpi-label { font-size: 0.65em; }
+            .om-table { font-size: 0.8em; }
+            .om-table th { padding: 6px 8px; font-size: 0.7em; }
+            .om-table td { padding: 5px 8px; }
+        }
+
         @media print {
             body { background: #fff; }
             .screen-only { display: none !important; }

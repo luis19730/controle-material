@@ -57,7 +57,26 @@
         tr:hover { background: rgba(107,163,190,0.05); }
 
         footer { text-align: center; padding: 30px; margin-top: 20px; color: #666; font-size: 0.85em; }
-        @media (max-width: 768px) { h1 { font-size: 1.5em; } .charts-grid { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.3em; }
+            .subtitle { font-size: 0.8em; }
+            .nav { flex-wrap: wrap; gap: 6px; }
+            .nav a { padding: 8px 14px; font-size: 0.8em; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .kpi-card { padding: 15px; }
+            .kpi-value { font-size: 1.8em; }
+            .kpi-label { font-size: 0.7em; }
+            .charts-grid { grid-template-columns: 1fr; gap: 15px; }
+            .chart-card { padding: 15px; }
+            .chart-container { height: 250px; }
+            .progress-item { padding: 10px 12px; }
+            .progress-name { font-size: 0.85em; }
+            .progress-pct { font-size: 0.75em; }
+            .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 15px; }
+            table { min-width: 900px; }
+            th { padding: 8px 6px; font-size: 0.7em; }
+            td { padding: 6px; font-size: 0.75em; }
+        }
         @media print { .nav { display: none !important; } body { background: #fff; color: #000; } .kpi-card, .chart-card, .table-card { background: #fff; border: 1px solid #ccc; } }
     </style>
 </head>
