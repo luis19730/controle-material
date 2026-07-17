@@ -15,17 +15,18 @@
         .btn:hover { transform: scale(1.05); }
         .btn-print { background: linear-gradient(90deg, #6ba3be, #7bc8a4); color: #1a1a2e; }
         .btn-back { background: rgba(255,255,255,0.1); color: #1a1a2e; text-decoration: none; display: inline-block; }
-        .nav-links { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .nav-links { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
 
-        .report { background: #fff; max-width: 800px; margin: 0 auto; padding: 50px 40px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+        .om-shortcuts { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 20px 0 30px; }
+        .om-shortcut { padding: 8px 14px; border: 2px solid #1a1a2e; border-radius: 6px; background: #fff; color: #1a1a2e; font-size: 0.75em; font-weight: bold; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .om-shortcut:hover { background: #1a1a2e; color: #fff; }
+
+        .report { background: #fff; max-width: 900px; margin: 0 auto; padding: 50px 40px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
         .report-header { text-align: center; border-bottom: 3px double #1a1a2e; padding-bottom: 20px; margin-bottom: 30px; }
         .report-header img { max-width: 80px; margin-bottom: 10px; }
         .report-header h2 { font-size: 1.4em; margin-bottom: 5px; }
         .report-header h3 { font-size: 1.1em; font-weight: normal; color: #444; margin-bottom: 5px; }
         .report-header .date { color: #666; font-size: 0.9em; }
-
-        .report-body { margin-top: 20px; }
-        .report-body p { margin-bottom: 15px; line-height: 1.8; font-size: 1em; }
 
         .kpi-report { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
         .kpi-item { border: 1px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; }
@@ -33,18 +34,33 @@
         .kpi-number { font-size: 2.5em; font-weight: bold; color: #1a1a2e; margin-bottom: 5px; }
         .kpi-label { font-size: 0.9em; color: #555; text-transform: uppercase; letter-spacing: 1px; }
 
-        .om-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        .om-table th { background: #1a1a2e; color: #fff; padding: 10px; text-align: left; font-size: 0.85em; }
-        .om-table td { padding: 8px 10px; border-bottom: 1px solid #eee; font-size: 0.9em; }
-        .om-table tr:nth-child(even) { background: #f9f9f9; }
+        .om-section { margin-top: 40px; border-top: 2px solid #1a1a2e; padding-top: 20px; page-break-inside: avoid; }
+        .om-title { font-size: 1.2em; background: #1a1a2e; color: #fff; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; }
+        .om-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
+        .om-kpi { background: #f5f5f5; border-radius: 6px; padding: 12px; text-align: center; }
+        .om-kpi-value { font-size: 1.5em; font-weight: bold; }
+        .om-kpi-label { font-size: 0.7em; color: #666; text-transform: uppercase; }
+        .om-kpi.green .om-kpi-value { color: #2d7a4f; }
+        .om-kpi.yellow .om-kpi-value { color: #b8960a; }
+        .om-kpi.red .om-kpi-value { color: #a04040; }
+
+        .om-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.85em; }
+        .om-table th { background: #e8e8e8; padding: 8px 10px; text-align: left; font-size: 0.8em; text-transform: uppercase; border-bottom: 2px solid #1a1a2e; }
+        .om-table td { padding: 7px 10px; border-bottom: 1px solid #eee; }
+        .om-table tr:hover { background: #f9f9f9; }
+        .status-homologada { color: #2d7a4f; font-weight: bold; }
+        .status-pendente { color: #b8960a; font-weight: bold; }
+        .status-recolhido { color: #a04040; font-weight: bold; }
 
         .report-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #888; font-size: 0.8em; }
 
         @media print {
             body { background: #fff; }
             .screen-only { display: none !important; }
+            .om-shortcuts { display: none !important; }
             .report { box-shadow: none; padding: 30px 20px; max-width: 100%; }
             .kpi-item { border: 1px solid #999; }
+            .om-section { page-break-inside: avoid; }
             @page { margin: 15mm; size: A4; }
         }
     </style>
@@ -52,7 +68,7 @@
 <body>
     <div class="screen-only">
         <div class="screen-header">
-            <h1>Relatório Resumido</h1>
+            <h1>Relatório por OM</h1>
             <p>Controle de Material - Bda Inf Amv</p>
             <div class="nav-links">
                 <a href="index.html" class="btn btn-back">Consulta</a>
@@ -65,22 +81,16 @@
     <div class="report" id="report">
         <div class="report-header">
             <img src="logo.png" alt="Logo">
-            <h2>RELATÓRIO RESUMIDO</h2>
+            <h2>RELATÓRIO POR ORGANIZAÇÃO MILITAR</h2>
             <h3>Controle de Material - Bda Inf Amv</h3>
             <div class="date" id="reportDate"></div>
         </div>
 
-        <div class="report-body">
-            <p>Segue abaixo o resumo consolidado do Controle de Material da Bda Inf Amv:</p>
+        <div class="kpi-report" id="kpiReport"></div>
 
-            <div class="kpi-report" id="kpiReport"></div>
+        <div class="om-shortcuts" id="omShortcuts"></div>
 
-            <h3 style="margin: 25px 0 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Resumo por Organização Militar</h3>
-            <table class="om-table">
-                <thead><tr><th>OM</th><th>Total Itens</th><th>Homologadas</th><th>Pendentes</th><th>QNT a Recolher</th><th>% Resolvido</th></tr></thead>
-                <tbody id="omTableBody"></tbody>
-            </table>
-        </div>
+        <div id="omSections"></div>
 
         <div class="report-footer">
             Sistema de Controle de Material Militar | Bda Inf Amv
@@ -169,7 +179,6 @@
         const oms = [...new Set(data.map(d => d.om))];
         const homologadas = data.filter(d => d.status === 'homologada').length;
         const pendentes = data.filter(d => d.status === 'pendente').length;
-        const recolhidos = data.filter(d => d.status === 'recolhido').length;
         const qntRecolher = data.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);
 
         document.getElementById('kpiReport').innerHTML = `
@@ -180,25 +189,50 @@
             <div class="kpi-item full"><div class="kpi-number">${qntRecolher}</div><div class="kpi-label">QNT Total a Recolher</div></div>
         `;
 
-        const omData = {};
-        data.forEach(d => {
-            if (!omData[d.om]) omData[d.om] = { total: 0, hom: 0, pend: 0, qr: 0 };
-            omData[d.om].total++;
-            if (d.status === 'homologada') omData[d.om].hom++;
-            if (d.status === 'pendente') omData[d.om].pend++;
-            if (typeof d.qntRecolher === 'number') omData[d.om].qr += d.qntRecolher;
-        });
-
-        const sortedOm = Object.entries(omData).sort((a, b) => {
-            const ia = omOrder.indexOf(a[0]); const ib = omOrder.indexOf(b[0]);
+        const sortedOms = oms.sort((a, b) => {
+            const ia = omOrder.indexOf(a); const ib = omOrder.indexOf(b);
             return (ia >= 0 ? ia : 999) - (ib >= 0 ? ib : 999);
         });
 
-        document.getElementById('omTableBody').innerHTML = sortedOm.map(([om, info]) => {
-            const resolvidos = info.hom + data.filter(d => d.om === om && d.status === 'recolhido').length;
-            const pct = Math.round((resolvidos / info.total) * 100);
-            return `<tr><td><strong>${om}</strong></td><td>${info.total}</td><td>${info.hom}</td><td>${info.pend}</td><td>${info.qr}</td><td>${pct}%</td></tr>`;
+        document.getElementById('omShortcuts').innerHTML = sortedOms.map(om => {
+            const id = om.replace(/[^a-zA-Z0-9]/g, '_');
+            return `<a class="om-shortcut" href="#om_${id}">${om}</a>`;
         }).join('');
+
+        let sectionsHtml = '';
+        sortedOms.forEach(om => {
+            const items = data.filter(d => d.om === om);
+            const id = om.replace(/[^a-zA-Z0-9]/g, '_');
+            const hom = items.filter(d => d.status === 'homologada').length;
+            const pend = items.filter(d => d.status === 'pendente').length;
+            const rec = items.filter(d => d.status === 'recolhido').length;
+            const qr = items.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);
+            const totalItens = items.length;
+
+            sectionsHtml += `
+                <div class="om-section" id="om_${id}">
+                    <div class="om-title">${om}</div>
+                    <div class="om-kpis">
+                        <div class="om-kpi"><div class="om-kpi-value">${totalItens}</div><div class="om-kpi-label">Itens</div></div>
+                        <div class="om-kpi green"><div class="om-kpi-value">${hom}</div><div class="om-kpi-label">DCGs Homologadas</div></div>
+                        <div class="om-kpi yellow"><div class="om-kpi-value">${pend}</div><div class="om-kpi-label">Processos Pendentes</div></div>
+                        <div class="om-kpi red"><div class="om-kpi-value">${qr}</div><div class="om-kpi-label">QNT a Recolher</div></div>
+                    </div>
+                    <table class="om-table">
+                        <thead><tr><th>Classe</th><th>Material</th><th>QNT a Recolher</th><th>Status</th></tr></thead>
+                        <tbody>
+                            ${items.map(d => {
+                                const statusLabel = d.status === 'homologada' ? 'DCG Homologada' : d.status === 'pendente' ? 'Processo Pendente' : 'Material Recolhido';
+                                const statusClass = 'status-' + d.status;
+                                return `<tr><td>${d.classe}</td><td>${d.material}</td><td>${d.qntRecolher}</td><td class="${statusClass}">${statusLabel}</td></tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        });
+
+        document.getElementById('omSections').innerHTML = sectionsHtml;
 
         const today = new Date();
         document.getElementById('reportDate').textContent = today.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
