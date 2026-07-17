@@ -28,25 +28,26 @@
         .report-header h3 { font-size: clamp(0.85em, 1.6vw, 1.1em); font-weight: normal; color: #444; margin-bottom: 5px; }
         .report-header .date { color: #666; font-size: clamp(0.75em, 1.3vw, 0.9em); }
 
-        .kpi-report { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 2vw, 20px); margin: 30px 0; }
-        .kpi-item { border: 1px solid #ddd; border-radius: 8px; padding: clamp(12px, 2vw, 20px); text-align: center; }
+        .kpi-report { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: clamp(8px, 1.5vw, 20px); margin: 30px 0; }
+        .kpi-item { border: 1px solid #ddd; border-radius: 8px; padding: clamp(10px, 1.8vw, 20px); text-align: center; }
         .kpi-item.full { grid-column: 1 / -1; }
-        .kpi-number { font-size: clamp(1.6em, 3.5vw, 2.5em); font-weight: bold; color: #1a1a2e; margin-bottom: 5px; }
-        .kpi-label { font-size: clamp(0.7em, 1.2vw, 0.9em); color: #555; text-transform: uppercase; letter-spacing: 1px; }
+        .kpi-number { font-size: clamp(1.4em, 3.5vw, 2.5em); font-weight: bold; color: #1a1a2e; margin-bottom: 5px; }
+        .kpi-label { font-size: clamp(0.6em, 1.2vw, 0.9em); color: #555; text-transform: uppercase; letter-spacing: 1px; }
 
         .om-section { margin-top: 40px; border-top: 2px solid #1a1a2e; padding-top: 20px; page-break-inside: avoid; }
-        .om-title { font-size: clamp(0.9em, 1.8vw, 1.2em); background: #1a1a2e; color: #fff; padding: clamp(7px, 1.2vw, 10px) clamp(10px, 1.5vw, 15px); border-radius: 6px; margin-bottom: 15px; }
-        .om-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(6px, 1vw, 10px); margin-bottom: 15px; }
-        .om-kpi { background: #f5f5f5; border-radius: 6px; padding: clamp(8px, 1.2vw, 12px); text-align: center; }
-        .om-kpi-value { font-size: clamp(1em, 2vw, 1.5em); font-weight: bold; }
-        .om-kpi-label { font-size: clamp(0.55em, 1vw, 0.7em); color: #666; text-transform: uppercase; }
+        .om-title { font-size: clamp(0.9em, 1.8vw, 1.2em); background: #1a1a2e; color: #fff; padding: clamp(7px, 1.2vw, 10px) clamp(10px, 1.5vw, 15px); border-radius: 6px; margin-bottom: 15px; word-break: break-word; }
+        .om-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: clamp(5px, 0.8vw, 10px); margin-bottom: 15px; }
+        .om-kpi { background: #f5f5f5; border-radius: 6px; padding: clamp(6px, 1vw, 12px); text-align: center; }
+        .om-kpi-value { font-size: clamp(0.9em, 2vw, 1.5em); font-weight: bold; }
+        .om-kpi-label { font-size: clamp(0.5em, 0.9vw, 0.7em); color: #666; text-transform: uppercase; }
         .om-kpi.green .om-kpi-value { color: #2d7a4f; }
         .om-kpi.yellow .om-kpi-value { color: #b8960a; }
         .om-kpi.red .om-kpi-value { color: #a04040; }
 
-        .om-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: clamp(0.7em, 1.2vw, 0.85em); min-width: 700px; }
-        .om-table th { background: #e8e8e8; padding: clamp(5px, 0.8vw, 8px) clamp(6px, 1vw, 10px); text-align: left; font-size: clamp(0.6em, 1vw, 0.8em); text-transform: uppercase; border-bottom: 2px solid #1a1a2e; }
-        .om-table td { padding: clamp(4px, 0.7vw, 7px) clamp(6px, 1vw, 10px); border-bottom: 1px solid #eee; }
+        .om-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 15px 0; }
+        .om-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .om-table th { background: #e8e8e8; padding: clamp(4px, 0.7vw, 8px) clamp(5px, 0.8vw, 10px); text-align: left; font-size: clamp(0.55em, 0.9vw, 0.8em); text-transform: uppercase; border-bottom: 2px solid #1a1a2e; white-space: nowrap; }
+        .om-table td { padding: clamp(3px, 0.6vw, 7px) clamp(5px, 0.8vw, 10px); border-bottom: 1px solid #eee; font-size: clamp(0.6em, 1vw, 0.85em); word-break: break-word; }
         .om-table tr:hover { background: #f9f9f9; }
         .status-homologada { color: #2d7a4f; font-weight: bold; }
         .status-pendente { color: #b8960a; font-weight: bold; }
@@ -59,6 +60,7 @@
             .screen-only { display: none !important; }
             .om-shortcuts { display: none !important; }
             .report { box-shadow: none; padding: 30px 20px; max-width: 100%; }
+            .om-table-wrap { overflow: visible; }
             .om-table { min-width: unset; }
         }
     </style>
@@ -218,16 +220,18 @@
                         <div class="om-kpi yellow"><div class="om-kpi-value">${pend}</div><div class="om-kpi-label">Processos Pendentes</div></div>
                         <div class="om-kpi red"><div class="om-kpi-value">${qr}</div><div class="om-kpi-label">QNT a Recolher</div></div>
                     </div>
-                    <table class="om-table">
-                        <thead><tr><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th><th>Status</th></tr></thead>
-                        <tbody>
-                            ${items.map(d => {
-                                const statusLabel = d.status === 'homologada' ? 'DCG Homologada' : d.status === 'pendente' ? 'Processo Pendente' : 'Material Recolhido';
-                                const statusClass = 'status-' + d.status;
-                                return `<tr><td>${d.classe}</td><td>${d.material}</td><td>${d.qntOm}</td><td>${d.qntRecolher}</td><td class="${statusClass}">${statusLabel}</td></tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
+                    <div class="om-table-wrap">
+                        <table class="om-table">
+                            <thead><tr><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th><th>Status</th></tr></thead>
+                            <tbody>
+                                ${items.map(d => {
+                                    const statusLabel = d.status === 'homologada' ? 'DCG Homologada' : d.status === 'pendente' ? 'Processo Pendente' : 'Material Recolhido';
+                                    const statusClass = 'status-' + d.status;
+                                    return `<tr><td>${d.classe}</td><td>${d.material}</td><td>${d.qntOm}</td><td>${d.qntRecolher}</td><td class="${statusClass}">${statusLabel}</td></tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             `;
         });
