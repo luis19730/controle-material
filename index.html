@@ -199,6 +199,10 @@
             <div class="modal">
                 <h3>Confirmar Exclusao</h3>
                 <p>Tem certeza que deseja excluir este registro?</p>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label>Senha</label>
+                    <input type="password" id="deletePassword" placeholder="Digite a senha" style="width:100%;">
+                </div>
                 <div class="modal-buttons">
                     <button class="btn btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
                     <button class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
@@ -426,13 +430,19 @@
         }
 
         function deleteRecord(id) { deleteId = id; document.getElementById('deleteModal').classList.add('active'); }
-        function closeDeleteModal() { deleteId = null; document.getElementById('deleteModal').classList.remove('active'); }
+        function closeDeleteModal() { deleteId = null; document.getElementById('deleteModal').classList.remove('active'); document.getElementById('deletePassword').value = ''; }
         function confirmDelete() {
+            const senha = document.getElementById('deletePassword').value;
+            if (senha !== 'a23741') {
+                showToast('Senha incorreta!', 'error');
+                return;
+            }
             data = data.filter(d => d.id !== deleteId);
             saveData();
-            filteredData = [...data];
+            filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
             renderTable();
             closeDeleteModal();
+            document.getElementById('deletePassword').value = '';
             showToast('Registro excluido com sucesso!', 'success');
         }
 
