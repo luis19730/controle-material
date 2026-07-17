@@ -123,8 +123,8 @@
                             <th onclick="sortTable(1)">Classe</th>
                             <th onclick="sortTable(2)">Material</th>
                             <th onclick="sortTable(3)">EB34</th>
-                            <th onclick="sortTable(4)">QTD na OM</th>
-                            <th onclick="sortTable(5)">QTD a Recolher</th>
+                            <th onclick="sortTable(4)">QNT na OM</th>
+                            <th onclick="sortTable(5)">QNT a Recolher</th>
                             <th onclick="sortTable(6)">ODR</th>
                             <th onclick="sortTable(7)">Boletim / Data</th>
                             <th onclick="sortTable(8)">Observacao</th>
@@ -158,11 +158,11 @@
                         <input type="text" id="formEb34" placeholder="Numero do EB34 ou -">
                     </div>
                     <div class="form-group">
-                        <label>QTD na OM</label>
+                        <label>QNT na OM</label>
                         <input type="text" id="formQtdOm" placeholder="Quantidade ou XX">
                     </div>
                     <div class="form-group">
-                        <label>QTD a Recolher</label>
+                        <label>QNT a Recolher</label>
                         <input type="text" id="formQtdRecolher" placeholder="Quantidade ou -">
                     </div>
                     <div class="form-group">
@@ -479,7 +479,7 @@
         }
 
         function exportCSV() {
-            const h = ['OM','Classe','Material','EB34','QTD na OM','QTD a Recolher','ODR','Boletim','Observacao'];
+            const h = ['OM','Classe','Material','EB34','QNT na OM','QNT a Recolher','ODR','Boletim','Observacao'];
             const csv = [h.join(';'), ...filteredData.map(i => [i.om,i.classe,i.material,i.eb34,i.qtdOm,i.qtdRecolher,i.odr,i.boletim,`"${i.obs}"`].join(';'))].join('\n');
             const b = new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'});
             const l = document.createElement('a'); l.href = URL.createObjectURL(b); l.download = 'controle_material.csv'; l.click();
