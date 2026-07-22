@@ -2,58 +2,84 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Impressão OM - Bda Inf Amv</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #556b2f; --primary-dark: #3d4f1f; --primary-light: #6b8e23;
+            --accent: #8b7355; --accent-light: #a0926e;
+            --danger: #c0392b; --danger-dark: #a93226;
+            --warning: #d4a017; --success: #556b2f;
+            --bg: #f5f5f0; --surface: #ffffff; --surface-hover: #fafaf7;
+            --text: #2c3e1a; --text-secondary: #5a6b4a; --text-muted: #8a9a7a;
+            --border: #d4d9c8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+            --shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 10px 20px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 25px 40px rgba(0,0,0,0.18), 0 10px 15px rgba(0,0,0,0.08);
+            --radius: 12px; --radius-lg: 16px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial Black', Arial, sans-serif; background: #f5f5f5; color: #1a1a2e; min-height: 100vh; }
+        body { font-family: 'IBM Plex Mono', 'Courier New', monospace; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 0.92rem; }
+
         .screen-only { max-width: 1200px; margin: 0 auto; padding: clamp(15px, 3vw, 30px) clamp(10px, 2vw, 20px); }
         .screen-header { text-align: center; margin-bottom: clamp(15px, 3vw, 30px); }
-        .screen-header h1 { font-size: clamp(1.3em, 3.5vw, 2em); color: #1a1a2e; margin-bottom: 10px; }
-        .screen-header p { color: #666; margin-bottom: 20px; font-size: clamp(0.8em, 1.5vw, 1em); }
-        .btn { padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 30px); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: clamp(0.8em, 1.5vw, 1em); transition: transform 0.2s; }
-        .btn:hover { transform: scale(1.05); }
-        .btn-print { background: linear-gradient(90deg, #6ba3be, #7bc8a4); color: #1a1a2e; }
-        .btn-back { background: rgba(255,255,255,0.1); color: #1a1a2e; text-decoration: none; display: inline-block; }
+        .screen-header h1 { font-size: clamp(1.3em, 3.5vw, 2em); color: var(--text); margin-bottom: 10px; font-weight: 700; }
+        .screen-header p { color: var(--text-secondary); margin-bottom: 20px; font-size: clamp(0.8em, 1.5vw, 1em); }
+        .btn { padding: clamp(8px, 1.5vw, 12px) clamp(16px, 2.5vw, 30px); border: none; border-radius: var(--radius); font-weight: 700; cursor: pointer; font-size: clamp(0.8em, 1.5vw, 0.92rem); transition: var(--transition); font-family: inherit; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn:active { transform: scale(0.97); }
+        .btn-print { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: var(--shadow-sm), 0 3px 10px rgba(85,107,47,0.3); }
+        .btn-back { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); text-decoration: none; display: inline-flex; }
+        .btn-back:hover { background: var(--surface-hover); border-color: var(--text-muted); }
         .nav-links { display: flex; gap: clamp(6px, 1vw, 15px); justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
 
-        .om-selector { max-width: 600px; margin: 0 auto 30px; background: #fff; border-radius: 12px; padding: clamp(15px, 2.5vw, 30px); box-shadow: 0 2px 15px rgba(0,0,0,0.08); }
-        .om-selector h3 { margin-bottom: 15px; color: #1a1a2e; font-size: clamp(0.9em, 1.6vw, 1.1em); }
+        .om-selector { max-width: 600px; margin: 0 auto 30px; background: var(--surface); border-radius: var(--radius-lg); padding: clamp(15px, 2.5vw, 30px); box-shadow: var(--shadow-md); border: 1px solid var(--border); }
+        .om-selector h3 { margin-bottom: 15px; color: var(--text); font-size: clamp(0.9em, 1.6vw, 1.1em); font-weight: 700; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
         .om-list { display: flex; flex-direction: column; gap: clamp(5px, 0.8vw, 8px); }
-        .om-list a { display: block; padding: clamp(8px, 1.2vw, 12px) clamp(12px, 1.6vw, 18px); background: #f5f5f5; border-radius: 6px; text-decoration: none; color: #1a1a2e; font-weight: bold; transition: all 0.2s; border-left: 4px solid #6ba3be; font-size: clamp(0.8em, 1.3vw, 1em); }
-        .om-list a:hover { background: #1a1a2e; color: #fff; }
+        .om-list a { display: block; padding: clamp(8px, 1.2vw, 12px) clamp(12px, 1.6vw, 18px); background: var(--bg); border-radius: 8px; text-decoration: none; color: var(--text); font-weight: 700; transition: var(--transition); border-left: 4px solid var(--primary); font-size: clamp(0.78em, 1.2vw, 0.95em); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .om-list a:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .report { background: #fff; max-width: 900px; margin: 0 auto; padding: clamp(20px, 4vw, 50px) clamp(15px, 3vw, 40px); box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
-        .report-header { text-align: center; border-bottom: 3px double #1a1a2e; padding-bottom: 20px; margin-bottom: 30px; }
-        .report-header img { max-width: clamp(40px, 8vw, 80px); margin-bottom: 10px; }
-        .report-header h2 { font-size: clamp(0.9em, 2vw, 1.3em); margin-bottom: 5px; }
-        .report-header h3 { font-size: clamp(0.85em, 1.6vw, 1.1em); font-weight: normal; color: #444; margin-bottom: 5px; }
-        .report-header .date { color: #666; font-size: clamp(0.75em, 1.3vw, 0.9em); }
+        .report { background: var(--surface); max-width: 900px; margin: 0 auto; padding: clamp(20px, 4vw, 50px) clamp(15px, 3vw, 40px); box-shadow: var(--shadow-md); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+        .report-header { text-align: center; border-bottom: 3px double var(--text); padding-bottom: 20px; margin-bottom: 30px; }
+        .report-header img { max-width: clamp(40px, 8vw, 80px); margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+        .report-header h2 { font-size: clamp(0.9em, 2vw, 1.3em); margin-bottom: 5px; color: var(--text); font-weight: 700; }
+        .report-header h3 { font-size: clamp(0.85em, 1.6vw, 1.1em); font-weight: normal; color: var(--text-secondary); margin-bottom: 5px; }
+        .report-header .date { color: var(--text-muted); font-size: clamp(0.75em, 1.3vw, 0.9em); }
 
-        .om-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 1.3vw, 15px); margin: 25px 0; }
-        .om-kpi { border: 1px solid #ddd; border-radius: 8px; padding: clamp(10px, 1.5vw, 18px); text-align: center; }
-        .om-kpi-value { font-size: clamp(1.3em, 2.5vw, 2em); font-weight: bold; margin-bottom: 5px; }
-        .om-kpi-label { font-size: clamp(0.6em, 1vw, 0.75em); color: #666; text-transform: uppercase; letter-spacing: 1px; }
-        .om-kpi.green .om-kpi-value { color: #2d7a4f; }
-        .om-kpi.yellow .om-kpi-value { color: #b8960a; }
-        .om-kpi.red .om-kpi-value { color: #a04040; }
+        .om-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: clamp(8px, 1.3vw, 15px); margin: 25px 0; }
+        .om-kpi { border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(10px, 1.5vw, 18px); text-align: center; background: var(--surface); position: relative; overflow: hidden; }
+        .om-kpi::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--primary); border-radius: 4px 0 0 4px; }
+        .om-kpi-value { font-size: clamp(1.3em, 2.5vw, 2em); font-weight: 700; margin-bottom: 5px; line-height: 1.1; }
+        .om-kpi-label { font-size: clamp(0.55em, 0.95vw, 0.72em); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+        .om-kpi.green .om-kpi-value { color: var(--success); }
+        .om-kpi.yellow .om-kpi-value { color: var(--warning); }
+        .om-kpi.red .om-kpi-value { color: var(--danger); }
 
-        .report-table { width: 100%; border-collapse: collapse; margin: 20px 0; min-width: 700px; }
-        .report-table th { background: #1a1a2e; color: #fff; padding: clamp(6px, 1vw, 10px) clamp(8px, 1.2vw, 12px); text-align: left; font-size: clamp(0.65em, 1.1vw, 0.8em); text-transform: uppercase; }
-        .report-table td { padding: clamp(5px, 0.8vw, 9px) clamp(8px, 1.2vw, 12px); border-bottom: 1px solid #eee; font-size: clamp(0.72em, 1.2vw, 0.88em); }
-        .report-table tr:hover { background: #f9f9f9; }
-        .status-homologada { color: #2d7a4f; font-weight: bold; }
-        .status-pendente { color: #b8960a; font-weight: bold; }
-        .status-recolhido { color: #a04040; font-weight: bold; }
+        .report-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); }
+        .report-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .report-table th { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; padding: clamp(6px, 1vw, 10px) clamp(8px, 1.2vw, 12px); text-align: left; font-size: clamp(0.6em, 1vw, 0.78em); text-transform: uppercase; font-weight: 700; letter-spacing: 0.2px; }
+        .report-table td { padding: clamp(5px, 0.8vw, 9px) clamp(8px, 1.2vw, 12px); border-bottom: 1px solid var(--border); font-size: clamp(0.68em, 1.1vw, 0.85em); font-weight: 500; }
+        .report-table tr:hover { background: var(--surface-hover); }
+        .status-homologada { color: var(--success); font-weight: 700; }
+        .status-pendente { color: var(--warning); font-weight: 700; }
+        .status-recolhido { color: var(--danger); font-weight: 700; }
 
-        .report-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #888; font-size: 0.8em; }
+        .report-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.8em; font-weight: 600; }
 
         @media print {
-            body { background: #fff; }
+            body { background: white; }
             .screen-only { display: none !important; }
-            .report { box-shadow: none; padding: 30px 20px; max-width: 100%; }
-            .om-kpi { border: 1px solid #999; }
+            .report { box-shadow: none; padding: 30px 20px; max-width: 100%; border: none; border-radius: 0; }
+            .report-table-wrap { overflow: visible; border: none; }
             .report-table { min-width: unset; }
+            .report-table th { background: var(--primary) !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .om-kpi::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .om-kpi { border: 1px solid #999; }
             @page { margin: 15mm; size: A4; }
         }
     </style>
@@ -87,17 +113,21 @@
 
         <div class="om-kpis" id="omKpis"></div>
 
-        <h3 style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Itens DCGs Homologadas</h3>
-        <table class="report-table" id="tableHomologadas">
-            <thead><tr><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th></tr></thead>
-            <tbody id="tbodyHomologadas"></tbody>
-        </table>
+        <h3 style="margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.3px; font-size: 0.95em;"><span style="width:4px;height:18px;background:var(--primary);border-radius:2px;flex-shrink:0;"></span> Itens DCGs Homologadas</h3>
+        <div class="report-table-wrap">
+            <table class="report-table" id="tableHomologadas">
+                <thead><tr><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th></tr></thead>
+                <tbody id="tbodyHomologadas"></tbody>
+            </table>
+        </div>
 
-        <h3 style="margin: 25px 0 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Itens Processos Pendentes</h3>
-        <table class="report-table" id="tablePendentes">
-            <thead><tr><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th></tr></thead>
-            <tbody id="tbodyPendentes"></tbody>
-        </table>
+        <h3 style="margin: 25px 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--border); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.3px; font-size: 0.95em;"><span style="width:4px;height:18px;background:var(--primary);border-radius:2px;flex-shrink:0;"></span> Itens Processos Pendentes</h3>
+        <div class="report-table-wrap">
+            <table class="report-table" id="tablePendentes">
+                <thead><tr><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th></tr></thead>
+                <tbody id="tbodyPendentes"></tbody>
+            </table>
+        </div>
 
         <div class="report-footer">
             Sistema de Controle de Material Militar | Bda Inf Amv
