@@ -183,6 +183,7 @@
                     <span>Ultima atualizacao: <span id="lastUpdate">...</span></span>
                     <button onclick="manualRefresh()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Sincronizar</button>
                     <button onclick="forceReload()" style="background:rgba(255,0,0,0.3);border:1px solid rgba(255,100,100,0.3);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Limpar Cache</button>
+                    <button onclick="openTokenModal()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Token</button>
                 </div>
             </div>
         </header>
@@ -291,6 +292,22 @@
                 <div class="form-buttons">
                     <button class="btn btn-cancel" onclick="clearForm()">Cancelar</button>
                     <button class="btn btn-save" onclick="saveRecord()">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="tokenModal">
+            <div class="modal">
+                <h3 style="color:var(--primary);">Configurar Token GitHub</h3>
+                <p>Para sincronizar entre dispositivos, cole seu Personal Access Token do GitHub.</p>
+                <p style="font-size:0.8rem;color:var(--text-muted);padding:0 28px;">Crie em: <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--primary);">github.com/settings/tokens</a> com permissao "repo"</p>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label style="color:var(--text-secondary);margin-bottom:5px;">Token</label>
+                    <input type="password" id="tokenInput" placeholder="Cole seu token aqui" style="width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.92rem;font-family:inherit;">
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn btn-cancel" onclick="closeTokenModal()">Cancelar</button>
+                    <button class="btn btn-save" onclick="saveToken()">Salvar Token</button>
                 </div>
             </div>
         </div>
@@ -576,6 +593,27 @@
         document.getElementById('filterClasse').addEventListener('change', filterData);
         document.getElementById('filterStatus').addEventListener('change', filterData);
         document.getElementById('filterAcao').addEventListener('change', filterData);
+
+        function openTokenModal() {
+            const existing = localStorage.getItem('github_token') || '';
+            document.getElementById('tokenInput').value = existing;
+            document.getElementById('tokenModal').classList.add('active');
+        }
+        function closeTokenModal() {
+            document.getElementById('tokenModal').classList.remove('active');
+        }
+        function saveToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (token && token.length > 10) {
+                setGitHubToken(token);
+                closeTokenModal();
+                showToast('Token salvo! Recarregando...', 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast('Token invalido!', 'error');
+            }
+        }
+        document.getElementById('tokenModal').addEventListener('click', function(e) { if (e.target === this) closeTokenModal(); });
 
         async function forceReload() {
             showSyncStatus('Limpando cache...', '');

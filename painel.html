@@ -29,7 +29,7 @@
         body { font-family: 'IBM Plex Mono', 'Courier New', monospace; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 0.92rem; }
         .container { max-width: 1600px; margin: 0 auto; padding: clamp(10px, 2vw, 20px); }
 
-        header { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%); color: white; padding: clamp(15px, 3vw, 30px); border-radius: var(--radius-lg); margin-bottom: clamp(15px, 3vw, 30px); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; gap: clamp(10px, 2vw, 20px); flex-wrap: wrap; position: relative; overflow: hidden; }
+        header { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%); color: white; padding: clamp(15px, 3vw, 30px); border-radius: var(--radius-lg); margin-bottom: clamp(15px, 2vw, 30px); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; gap: clamp(10px, 2vw, 20px); flex-wrap: wrap; position: relative; overflow: hidden; }
         header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
         .logo { max-width: clamp(50px, 10vw, 100px); height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); border-radius: 8px; position: relative; z-index: 1; }
         h1 { font-size: clamp(1.2em, 3.5vw, 2.2em); font-weight: 700; letter-spacing: -0.5px; color: white; position: relative; z-index: 1; }
@@ -85,6 +85,30 @@
         td { padding: clamp(5px, 0.8vw, 10px) clamp(6px, 1vw, 12px); border-bottom: 1px solid var(--border); font-size: clamp(0.65em, 1.1vw, 0.88em); color: var(--text); font-weight: 500; }
         tr:hover { background: var(--surface-hover); }
 
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--surface); border-radius: var(--radius-lg); max-width: 500px; width: 100%; box-shadow: var(--shadow-lg); animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border); }
+        @keyframes modalIn { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .modal h3 { margin-bottom: 15px; color: var(--primary); font-size: clamp(1em, 2vw, 1.2rem); font-weight: 700; letter-spacing: -0.3px; padding: 20px 28px 0; }
+        .modal p { margin-bottom: 20px; color: var(--text-secondary); font-size: clamp(0.85em, 1.5vw, 0.95rem); padding: 0 28px; }
+        .modal .form-group { padding: 0 28px; }
+        .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; padding: 20px 28px; border-top: 1px solid var(--border); }
+        .modal-buttons .btn { flex: 1; min-width: 120px; text-align: center; }
+
+        .btn { padding: clamp(8px, 1.5vw, 12px) clamp(15px, 2vw, 25px); border: none; border-radius: var(--radius); cursor: pointer; font-size: clamp(0.8em, 1.4vw, 0.92rem); font-weight: 700; transition: var(--transition); letter-spacing: 0.2px; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+        .btn:active { transform: scale(0.97); }
+        .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn-save { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: var(--shadow-sm), 0 3px 10px rgba(85,107,47,0.3); }
+        .btn-save:hover { box-shadow: var(--shadow-md), 0 6px 16px rgba(85,107,47,0.4); }
+        .btn-cancel { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); }
+        .btn-cancel:hover { background: var(--surface-hover); border-color: var(--text-muted); }
+
+        .toast { position: fixed; bottom: 15px; left: 15px; right: 15px; padding: 12px 20px; border-radius: var(--radius); color: white; font-weight: 700; z-index: 2000; animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; text-align: center; font-size: clamp(0.8em, 1.5vw, 0.95rem); }
+        .toast-success { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+        .toast-error { background: linear-gradient(135deg, var(--danger), var(--danger-dark)); }
+        @keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
         footer { text-align: center; padding: clamp(15px, 2vw, 30px); margin-top: 20px; color: var(--text-muted); font-size: 0.85em; font-weight: 600; }
 
         @media print { .nav { display: none !important; } body { background: white; } .kpi-card, .chart-card, .table-card { box-shadow: none; border: 1px solid #ccc; } }
@@ -106,6 +130,7 @@
             <a href="relatorio.html">Relatório</a>
             <a href="imprimir.html">Impressão por OM</a>
             <a href="javascript:window.print()" style="background:linear-gradient(90deg, #d4b96a, #c9a84c); color:#1a1a2e;">Imprimir</a>
+            <a href="javascript:openTokenModal()" style="background:linear-gradient(90deg, #6ba3be, #5a93ae); color:white;">Token</a>
         </div>
 
         <div class="kpi-grid" id="kpiGrid"></div>
@@ -145,7 +170,52 @@
         <footer>Sistema de Controle de Material Militar | Bda Inf Amv</footer>
     </div>
 
+    <div class="modal-overlay" id="tokenModal">
+        <div class="modal">
+            <h3>Configurar Token GitHub</h3>
+            <p>Para sincronizar entre dispositivos, cole seu Personal Access Token do GitHub.</p>
+            <p style="font-size:0.8rem;color:var(--text-muted);padding:0 28px;">Crie em: <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--primary);">github.com/settings/tokens</a> com permissao "repo"</p>
+            <div class="form-group" style="margin-bottom:20px;">
+                <label style="color:var(--text-secondary);margin-bottom:5px;">Token</label>
+                <input type="password" id="tokenInput" placeholder="Cole seu token aqui" style="width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.92rem;font-family:inherit;">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-cancel" onclick="closeTokenModal()">Cancelar</button>
+                <button class="btn btn-save" onclick="saveToken()">Salvar Token</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        function showToast(msg, type) {
+            const t = document.createElement('div');
+            t.className = 'toast toast-' + type;
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        function openTokenModal() {
+            const existing = localStorage.getItem('github_token') || '';
+            document.getElementById('tokenInput').value = existing;
+            document.getElementById('tokenModal').classList.add('active');
+        }
+        function closeTokenModal() {
+            document.getElementById('tokenModal').classList.remove('active');
+        }
+        function saveToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (token && token.length > 10) {
+                setGitHubToken(token);
+                closeTokenModal();
+                showToast('Token salvo! Recarregando...', 'success');
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast('Token invalido!', 'error');
+            }
+        }
+        document.getElementById('tokenModal').addEventListener('click', function(e) { if (e.target === this) closeTokenModal(); });
+
         function omSort(a, b) {
             const omA = Array.isArray(a) ? a[0] : a;
             const omB = Array.isArray(b) ? b[0] : b;
