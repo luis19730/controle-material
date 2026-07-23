@@ -243,7 +243,7 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label>OM</label>
-                        <input type="text" id="formOm" placeholder="Ex: 12ª Cia Com Amv">
+                        <select id="formOm"><option value="">Selecione a OM</option></select>
                     </div>
                     <div class="form-group">
                         <label>Classe</label>
@@ -455,16 +455,17 @@
         function clearForm() {
             editingId = null;
             document.getElementById('formTitle').textContent = 'Novo Registro';
-            ['formOm','formMaterial','formEb34','formQtdOm','formQtdRecolher','formOdr','formBoletim','formObs'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('formOm').value = '';
+            ['formMaterial','formEb34','formQtdOm','formQtdRecolher','formOdr','formBoletim','formObs'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('formClasse').value = 'II';
             document.getElementById('formStatus').value = 'homologada';
             document.getElementById('formAcao').value = 'destruicao';
         }
 
         async function saveRecord() {
-            const om = document.getElementById('formOm').value.trim();
+            const om = document.getElementById('formOm').value;
             const material = document.getElementById('formMaterial').value.trim();
-            if (!om || !material) { showToast('Preencha OM e Material!', 'error'); return; }
+            if (!om || !material) { showToast('Selecione a OM e preencha o Material!', 'error'); return; }
             const qntRecolher = document.getElementById('formQtdRecolher').value.trim();
             const parsed = parseInt(qntRecolher);
             const rec = {
@@ -515,6 +516,13 @@
             const configured = _isConfigured();
             showSyncStatus(configured ? 'Online' : 'Sem conexao - dados locais', configured ? 'ok' : '');
             if (configured) startAutoRefresh(60000);
+            const omSelect = document.getElementById('formOm');
+            OM_ORDER.forEach(om => {
+                const opt = document.createElement('option');
+                opt.value = om;
+                opt.textContent = om;
+                omSelect.appendChild(opt);
+            });
         }
 
         document.getElementById('searchInput').addEventListener('input', filterData);
