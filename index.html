@@ -581,7 +581,7 @@
             updateLastUpdateDisplay();
             const configured = _isConfigured();
             showSyncStatus(configured ? 'Online' : 'Sem conexao - dados locais', configured ? 'ok' : '');
-            startAutoRefresh(30000);
+            startAutoRefresh(10000);
             const omSelect = document.getElementById('formOm');
             OM_ORDER.forEach(om => {
                 const opt = document.createElement('option');

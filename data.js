@@ -131,20 +131,28 @@ async function fetchDefaultData() {
 // ============ auto refresh ============
 function startAutoRefresh(intervalMs) {
     if (_autoRefreshTimer) clearInterval(_autoRefreshTimer);
+    const interval = intervalMs || 10000;
     _autoRefreshTimer = setInterval(async () => {
-        const fresh = await fetchGitHubData();
-        if (fresh && fresh.length > 0) {
-            const oldJson = JSON.stringify(_data);
-            const newJson = JSON.stringify(fresh);
-            if (oldJson !== newJson) {
-                _data = fresh;
-                if (typeof renderTable === 'function') renderTable();
-                if (typeof renderAll === 'function') renderAll(_data);
-                updateLastUpdateDisplay();
-                showSyncStatus('Atualizado automaticamente!', 'ok');
+        if (!_isConfigured()) return;
+        try {
+            const fresh = await fetchGitHubData();
+            if (fresh && fresh.length > 0) {
+                const oldJson = JSON.stringify(_data);
+                const newJson = JSON.stringify(fresh);
+                if (oldJson !== newJson) {
+                    _data = fresh;
+                    if (typeof renderTable === 'function') renderTable();
+                    if (typeof renderAll === 'function') renderAll(_data);
+                    updateLastUpdateDisplay();
+                    showSyncStatus('Atualizado automaticamente!', 'ok');
+                } else {
+                    showSyncStatus('Online - atualizado', 'ok');
+                }
             }
+        } catch (e) {
+            console.error('Auto-refresh error:', e);
         }
-    }, intervalMs || 30000);
+    }, interval);
 }
 
 // ============ UI helpers ============
