@@ -140,7 +140,8 @@
 
     <script>
         async function renderAll(data) {
-            const allOms = [...new Set(data.map(d => d.om))].sort((a, b) => _getOmOrder(a) - _getOmOrder(b));
+            const activeData = data.filter(d => d.finalizado !== true);
+            const allOms = [...new Set(activeData.map(d => d.om))].sort((a, b) => _getOmOrder(a) - _getOmOrder(b));
 
             document.getElementById('omList').innerHTML = allOms.map(om => {
                 return `<a href="?om=${encodeURIComponent(om)}">${om}</a>`;
@@ -153,7 +154,7 @@
                 document.getElementById('omSelector').style.display = 'none';
                 document.getElementById('report').style.display = 'block';
 
-                const items = data.filter(d => d.om === selectedOm);
+                const items = activeData.filter(d => d.om === selectedOm);
                 const hom = items.filter(d => d.status === 'homologada');
                 const pend = items.filter(d => d.status === 'pendente');
                 const qr = items.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);

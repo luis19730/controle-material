@@ -233,6 +233,7 @@
                             <th onclick="sortTable(6)">ODR</th>
                             <th onclick="sortTable(7)">Boletim / Data</th>
                             <th onclick="sortTable(8)">Observacao</th>
+                            <th>Finalizado</th>
                             <th>Acoes</th>
                         </tr>
                     </thead>
@@ -291,6 +292,12 @@
                         <label>Acao</label>
                         <select id="formAcao"><option value="destruicao">Recolhimento/Destruicao</option><option value="alienacao">Alienacao</option><option value="outros">Outros</option></select>
                     </div>
+                    <div class="form-group">
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                            <input type="checkbox" id="formFinalizado" style="width:auto;cursor:pointer;">
+                            Processo Finalizado
+                        </label>
+                    </div>
                 </div>
                 <div class="form-buttons">
                     <button class="btn btn-cancel" onclick="clearForm()">Cancelar</button>
@@ -311,6 +318,21 @@
                 <div class="modal-buttons">
                     <button class="btn btn-cancel" onclick="closeTokenModal()">Cancelar</button>
                     <button class="btn btn-save" onclick="saveToken()">Salvar Token</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="finalizadoModal">
+            <div class="modal">
+                <h3 style="color:var(--primary);">Confirmar Alteracao</h3>
+                <p>Digite a senha para alterar o status de Processo Finalizado.</p>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label style="color:var(--text-secondary);margin-bottom:5px;">Senha</label>
+                    <input type="password" id="finalizadoSenha" placeholder="Digite a senha" style="width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.92rem;font-family:inherit;">
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn btn-cancel" onclick="closeFinalizadoModal()">Cancelar</button>
+                    <button class="btn btn-save" onclick="confirmFinalizado()">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -372,8 +394,11 @@
             const noResults = document.getElementById('noResults');
             if (filteredData.length === 0) { tbody.innerHTML = ''; noResults.style.display = 'block'; return; }
             noResults.style.display = 'none';
-            tbody.innerHTML = filteredData.map(item => `
-                <tr>
+            tbody.innerHTML = filteredData.map(item => {
+                const isFinalizado = item.finalizado === true;
+                const rowStyle = isFinalizado ? 'opacity:0.5;text-decoration:line-through;' : '';
+                return `
+                <tr style="${rowStyle}">
                     <td><strong>${item.om}</strong></td>
                     <td><span class="badge ${getBadgeClass(item.classe)}">${item.classe}</span></td>
                     <td>${item.material}</td>
@@ -383,22 +408,26 @@
                     <td>${item.odr}</td>
                     <td>${item.boletim}</td>
                     <td class="${getStatusClass(item.status)}">${item.obs}</td>
+                    <td style="text-align:center;">
+                        <input type="checkbox" ${isFinalizado ? 'checked' : ''} onchange="openFinalizadoModal(${item.id}, this.checked)" style="width:18px;height:18px;cursor:pointer;">
+                    </td>
                     <td class="action-buttons">
                         <button class="btn btn-edit" onclick="editRecord(${item.id})">Editar</button>
                         <button class="btn btn-delete" onclick="deleteRecord(${item.id})">Excluir</button>
                     </td>
-                </tr>
-            `).join('');
+                </tr>`;
+            }).join('');
             updateStats();
             populateMaterials();
         }
 
         function updateStats() {
-            document.getElementById('total-items').textContent = filteredData.length;
-            document.getElementById('total-oms').textContent = new Set(filteredData.map(d => d.om)).size;
-            document.getElementById('total-homologadas').textContent = filteredData.filter(d => d.status === 'homologada').length;
-            document.getElementById('total-pendentes').textContent = filteredData.filter(d => d.status === 'pendente').length;
-            document.getElementById('total-recolher').textContent = filteredData.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);
+            const activeData = data.filter(d => d.finalizado !== true);
+            document.getElementById('total-items').textContent = activeData.length;
+            document.getElementById('total-oms').textContent = new Set(activeData.map(d => d.om)).size;
+            document.getElementById('total-homologadas').textContent = activeData.filter(d => d.status === 'homologada').length;
+            document.getElementById('total-pendentes').textContent = activeData.filter(d => d.status === 'pendente').length;
+            document.getElementById('total-recolher').textContent = activeData.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);
         }
 
         function filterData() {
@@ -466,6 +495,7 @@
             document.getElementById('formObs').value = item.obs;
             document.getElementById('formStatus').value = item.status;
             document.getElementById('formAcao').value = item.acao;
+            document.getElementById('formFinalizado').checked = item.finalizado === true;
             switchTab('cadastro');
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
@@ -497,6 +527,7 @@
             document.getElementById('formClasse').value = 'II';
             document.getElementById('formStatus').value = 'homologada';
             document.getElementById('formAcao').value = 'destruicao';
+            document.getElementById('formFinalizado').checked = false;
         }
 
         async function saveRecord() {
@@ -516,7 +547,8 @@
                 boletim: document.getElementById('formBoletim').value.trim() || 'XX',
                 obs: document.getElementById('formObs').value.trim() || '-',
                 status: document.getElementById('formStatus').value,
-                acao: document.getElementById('formAcao').value
+                acao: document.getElementById('formAcao').value,
+                finalizado: document.getElementById('formFinalizado').checked
             };
             if (editingId) {
                 const idx = data.findIndex(d => d.id === editingId);
@@ -617,6 +649,36 @@
             }
         }
         document.getElementById('tokenModal').addEventListener('click', function(e) { if (e.target === this) closeTokenModal(); });
+
+        let finalizadoId = null;
+        let finalizadoValue = false;
+
+        function openFinalizadoModal(id, value) {
+            finalizadoId = id;
+            finalizadoValue = value;
+            document.getElementById('finalizadoSenha').value = '';
+            document.getElementById('finalizadoModal').classList.add('active');
+        }
+        function closeFinalizadoModal() {
+            document.getElementById('finalizadoModal').classList.remove('active');
+            finalizadoId = null;
+        }
+        async function confirmFinalizado() {
+            const senha = document.getElementById('finalizadoSenha').value;
+            if (senha !== 'a23741') { showToast('Senha incorreta!', 'error'); return; }
+            const item = data.find(d => d.id === finalizadoId);
+            if (item) {
+                item.finalizado = finalizadoValue;
+                showSyncStatus('Salvando...', '');
+                await saveData(data);
+                filteredData = sortData(data);
+                renderTable();
+                showSyncStatus('Sincronizado!', 'ok');
+                showToast(finalizadoValue ? 'Processo finalizado!' : 'Processo reaberto!', 'success');
+            }
+            closeFinalizadoModal();
+        }
+        document.getElementById('finalizadoModal').addEventListener('click', function(e) { if (e.target === this) closeFinalizadoModal(); });
 
         async function forceReload() {
             showSyncStatus('Limpando cache...', '');

@@ -226,16 +226,17 @@
         }
 
         async function renderAll(data) {
-            const total = data.length;
-            const oms = [...new Set(data.map(d => d.om))];
-            const homologadas = data.filter(d => d.status === 'homologada').length;
-            const pendentes = data.filter(d => d.status === 'pendente').length;
-            const recolhidos = data.filter(d => d.status === 'recolhido').length;
-            const qtdRecolher = data.reduce((s, d) => s + (typeof d.qtdRecolher === 'number' ? d.qtdRecolher : 0), 0);
+            const activeData = data.filter(d => d.finalizado !== true);
+            const total = activeData.length;
+            const oms = [...new Set(activeData.map(d => d.om))];
+            const homologadas = activeData.filter(d => d.status === 'homologada').length;
+            const pendentes = activeData.filter(d => d.status === 'pendente').length;
+            const recolhidos = activeData.filter(d => d.status === 'recolhido').length;
+            const qtdRecolher = activeData.reduce((s, d) => s + (typeof d.qtdRecolher === 'number' ? d.qtdRecolher : 0), 0);
             const resolvidos = homologadas + recolhidos;
             const pctResolvido = total > 0 ? Math.round((resolvidos / total) * 100) : 0;
-            const destruicao = data.filter(d => d.acao === 'destruicao').length;
-            const alienacao = data.filter(d => d.acao === 'alienacao').length;
+            const destruicao = activeData.filter(d => d.acao === 'destruicao').length;
+            const alienacao = activeData.filter(d => d.acao === 'alienacao').length;
 
             document.getElementById('kpiGrid').innerHTML = `
                 <div class="kpi-card"><div class="kpi-value blue">${total}</div><div class="kpi-label">Total de Itens</div></div>
@@ -253,7 +254,7 @@
             Chart.defaults.font.family = 'Arial Black';
 
             const classes = {};
-            data.forEach(d => { classes[d.classe] = (classes[d.classe] || 0) + 1; });
+            activeData.forEach(d => { classes[d.classe] = (classes[d.classe] || 0) + 1; });
             new Chart(document.getElementById('chartClasse'), {
                 type: 'doughnut',
                 data: { labels: Object.keys(classes), datasets: [{ data: Object.values(classes), backgroundColor: chartColors, borderWidth: 0 }] },
@@ -268,12 +269,12 @@
 
             new Chart(document.getElementById('chartAcao'), {
                 type: 'pie',
-                data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, data.filter(d => d.acao === 'outros').length], backgroundColor: ['#c97f7f','#6db5aa','#d4b96a'], borderWidth: 0 }] },
+                data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, activeData.filter(d => d.acao === 'outros').length], backgroundColor: ['#c97f7f','#6db5aa','#d4b96a'], borderWidth: 0 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
             });
 
             const omCounts = {};
-            data.forEach(d => { omCounts[d.om] = (omCounts[d.om] || 0) + 1; });
+            activeData.forEach(d => { omCounts[d.om] = (omCounts[d.om] || 0) + 1; });
             const sortedOms = Object.entries(omCounts).sort(omSort).slice(0, 15);
             new Chart(document.getElementById('chartOm'), {
                 type: 'bar',
@@ -282,7 +283,7 @@
             });
 
             const omData = {};
-            data.forEach(d => {
+            activeData.forEach(d => {
                 if (!omData[d.om]) omData[d.om] = { total: 0, resolvidos: 0 };
                 omData[d.om].total++;
                 if (d.status === 'homologada' || d.status === 'recolhido') omData[d.om].resolvidos++;
@@ -296,12 +297,12 @@
             document.getElementById('progressList').innerHTML = progressHtml;
 
             const tableHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
-                const hom = data.filter(d => d.om === om && d.status === 'homologada').length;
-                const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
-                const qntOm = data.filter(d => d.om === om).map(d => d.qntOm).join(', ');
-                const qr = data.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);
+                const hom = activeData.filter(d => d.om === om && d.status === 'homologada').length;
+                const pend = activeData.filter(d => d.om === om && d.status === 'pendente').length;
+                const qntOm = activeData.filter(d => d.om === om).map(d => d.qntOm).join(', ');
+                const qr = activeData.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);
                 const pct = Math.round((info.resolvidos / info.total) * 100);
-                const materiais = [...new Set(data.filter(d => d.om === om).map(d => d.material))].join(', ');
+                const materiais = [...new Set(activeData.filter(d => d.om === om).map(d => d.material))].join(', ');
                 return `<tr><td><strong>${om}</strong></td><td style="max-width:350px;font-size:0.8em;color:#8a9aa5">${materiais}</td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td style="font-size:0.8em">${qntOm}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
             }).join('');
             document.getElementById('omTable').innerHTML = tableHtml;
