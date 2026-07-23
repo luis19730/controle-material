@@ -436,16 +436,18 @@
 
         function deleteRecord(id) { deleteId = id; document.getElementById('deleteModal').classList.add('active'); }
         function closeDeleteModal() { deleteId = null; document.getElementById('deleteModal').classList.remove('active'); document.getElementById('deletePassword').value = ''; }
-        function confirmDelete() {
+        async function confirmDelete() {
             const senha = document.getElementById('deletePassword').value;
             if (senha !== 'a23741') { showToast('Senha incorreta!', 'error'); return; }
             data = data.filter(d => d.id !== deleteId);
-            saveData(data);
+            showSyncStatus('Salvando...', '');
+            await saveData(data);
             filteredData = sortData(data);
             renderTable();
             closeDeleteModal();
             document.getElementById('deletePassword').value = '';
             showToast('Registro excluido com sucesso!', 'success');
+            showSyncStatus('Sincronizado!', 'ok');
         }
 
         function clearForm() {
@@ -457,7 +459,7 @@
             document.getElementById('formAcao').value = 'destruicao';
         }
 
-        function saveRecord() {
+        async function saveRecord() {
             const om = document.getElementById('formOm').value.trim();
             const material = document.getElementById('formMaterial').value.trim();
             if (!om || !material) { showToast('Preencha OM e Material!', 'error'); return; }
@@ -483,11 +485,13 @@
                 data.push(rec);
                 showToast('Novo registro adicionado com sucesso!', 'success');
             }
-            saveData(data);
+            showSyncStatus('Salvando...', '');
+            await saveData(data);
             filteredData = sortData(data);
             renderTable();
             clearForm();
             switchTab('consulta');
+            showSyncStatus('Sincronizado!', 'ok');
         }
 
         function exportCSV() {
@@ -505,7 +509,8 @@
             filteredData = [...data];
             renderTable();
             document.getElementById('currentDate').textContent = formatDate();
-            showSyncStatus('Online', 'ok');
+            const configured = typeof GITHUB_CONFIG !== 'undefined' && GITHUB_CONFIG.token && GITHUB_CONFIG.token !== '' && !GITHUB_CONFIG.token.startsWith('COLE_');
+            showSyncStatus(configured ? 'Online' : 'Sem conexao - dados locais', configured ? 'ok' : '');
         }
 
         document.getElementById('searchInput').addEventListener('input', filterData);
