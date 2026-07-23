@@ -179,6 +179,8 @@
                 <p class="subtitle">Bda Inf Amv - E/4 | Atualizado em <span id="currentDate"></span></p>
                 <div style="font-size:0.7rem;color:rgba(255,255,255,0.7);margin-top:4px;display:flex;align-items:center;gap:6px;">
                     <span id="syncStatus" style="color:rgba(255,255,255,0.5);">Carregando...</span>
+                    <span style="color:rgba(255,255,255,0.5);">|</span>
+                    <span>Ultima atualizacao: <span id="lastUpdate">...</span></span>
                     <button onclick="manualRefresh()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Sincronizar</button>
                 </div>
             </div>
@@ -509,6 +511,7 @@
             filteredData = [...data];
             renderTable();
             document.getElementById('currentDate').textContent = formatDate();
+            updateLastUpdateDisplay();
             const configured = _isConfigured();
             showSyncStatus(configured ? 'Online' : 'Sem conexao - dados locais', configured ? 'ok' : '');
             if (configured) startAutoRefresh(60000);

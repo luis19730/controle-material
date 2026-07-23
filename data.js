@@ -9,6 +9,7 @@ const TOKEN_KEY = 'github_token';
 let _data = [];
 let _githubSha = null;
 let _autoRefreshTimer = null;
+let _lastUpdate = null;
 
 function _getOmOrder(om) { const i = OM_ORDER.indexOf(om); return i >= 0 ? i : 999; }
 function sortData(arr) { return [...arr].sort((a, b) => _getOmOrder(a.om) - _getOmOrder(b.om)); }
@@ -62,6 +63,8 @@ async function fetchGitHubData() {
         const content = decodeURIComponent(escape(atob(json.content)));
         const parsed = JSON.parse(content);
         localStorage.setItem(LS_KEY, JSON.stringify(parsed));
+        _lastUpdate = new Date();
+        localStorage.setItem('lastUpdate', _lastUpdate.toISOString());
         return parsed;
     } catch (e) {
         console.error('GitHub fetch error:', e);
@@ -154,6 +157,7 @@ async function manualRefresh() {
     if (fresh && fresh.length > 0) {
         _data = fresh;
         showSyncStatus('Sincronizado!', 'ok');
+        updateLastUpdateDisplay();
         if (typeof renderTable === 'function') renderTable();
         if (typeof renderAll === 'function') renderAll(_data);
     } else {
@@ -164,6 +168,18 @@ async function manualRefresh() {
 function formatDate() {
     const today = new Date();
     return today.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+function getLastUpdate() {
+    if (_lastUpdate) return _lastUpdate.toLocaleString('pt-BR');
+    const stored = localStorage.getItem('lastUpdate');
+    if (stored) return new Date(stored).toLocaleString('pt-BR');
+    return 'Nunca';
+}
+
+function updateLastUpdateDisplay() {
+    const el = document.getElementById('lastUpdate');
+    if (el) el.textContent = getLastUpdate();
 }
 
 function setGitHubToken(token) {

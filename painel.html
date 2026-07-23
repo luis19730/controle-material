@@ -96,7 +96,7 @@
             <img src="logo.png" alt="Logo" class="logo">
             <div>
                 <h1>PAINEL DE INDICADORES</h1>
-                <p class="subtitle">Bda Inf Amv - Controle de Material | Atualizado em <span id="currentDate"></span></p>
+                <p class="subtitle">Bda Inf Amv - Controle de Material | Atualizado em <span id="currentDate"></span> | Ultima sincronizacao: <span id="lastUpdate">...</span></p>
             </div>
         </header>
 
@@ -238,6 +238,7 @@
             const data = await loadData();
             renderAll(data);
             document.getElementById('currentDate').textContent = formatDate();
+            updateLastUpdateDisplay();
         })();
     </script>
 </body>
