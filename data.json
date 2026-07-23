@@ -964,5 +964,19 @@
     "obs": "Material recolhido ao 1o Dsup",
     "status": "recolhido",
     "acao": "outros"
+  },
+  {
+    "om": "2º BI Amv",
+    "classe": "IX",
+    "material": "BINOCULO ZENITH (Cl V)",
+    "eb34": "333333",
+    "qntOm": "XX",
+    "qntRecolher": "-",
+    "odr": "XX",
+    "boletim": "XX",
+    "obs": "-",
+    "status": "homologada",
+    "acao": "alienacao",
+    "id": 70
   }
 ]
