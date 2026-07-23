@@ -16,14 +16,15 @@ function sortData(arr) { return [...arr].sort((a, b) => _getOmOrder(a.om) - _get
 function getNextId(data) { return data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1; }
 
 async function loadData() {
-    if (_isConfigured()) {
-        _data = await fetchGitHubData();
+    const fresh = await fetchGitHubData();
+    if (fresh && fresh.length > 0) {
+        _data = fresh;
+        localStorage.setItem(LS_KEY, JSON.stringify(fresh));
+        return _data;
     }
+    _data = await fetchLocalData();
     if (!_data || _data.length === 0) {
-        _data = await fetchLocalData();
-        if (!_data || _data.length === 0) {
-            await fetchDefaultData();
-        }
+        await fetchDefaultData();
     }
     return _data;
 }
@@ -53,14 +54,13 @@ function _getToken() {
 }
 
 async function fetchGitHubData() {
-    if (!_isConfigured()) return null;
     try {
         const timestamp = Date.now();
         const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.dataFile}?t=${timestamp}`;
-        const resp = await fetch(url, {
-            cache: 'no-store',
-            headers: { 'Authorization': `token ${_getToken()}`, 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache, no-store, must-revalidate' }
-        });
+        const headers = { 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache, no-store, must-revalidate' };
+        const t = _getToken();
+        if (t && t.length > 10) headers['Authorization'] = `token ${t}`;
+        const resp = await fetch(url, { cache: 'no-store', headers });
         if (!resp.ok) return null;
         const json = await resp.json();
         _githubSha = json.sha;
