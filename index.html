@@ -174,8 +174,14 @@
     <div class="container">
         <header>
             <img src="logo.png" alt="Logo BDA Inf Amv" class="logo">
-            <h1>CONTROLE DE MATERIAL</h1>
-            <p class="subtitle">Bda Inf Amv - E/4 | Atualizado em <span id="currentDate"></span></p>
+            <div class="header-text">
+                <h1>CONTROLE DE MATERIAL</h1>
+                <p class="subtitle">Bda Inf Amv - E/4 | Atualizado em <span id="currentDate"></span></p>
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.7);margin-top:4px;display:flex;align-items:center;gap:6px;">
+                    <span id="syncStatus" style="color:rgba(255,255,255,0.5);">Carregando...</span>
+                    <button onclick="manualRefresh()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Sincronizar</button>
+                </div>
+            </div>
         </header>
 
         <div class="tabs">
@@ -305,104 +311,14 @@
         </footer>
     </div>
 
+    <script src="config.js"></script>
+    <script src="data.js"></script>
     <script>
-        const defaultData = [
-            {id:1,om:"12ª Cia Com Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:48,odr:"XX",boletim:"08 - 03 SET 25",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:2,om:"12ª Cia Com Amv",classe:"IX",material:"VTE - COM - MARRUA",eb34:"13259253",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 02 MAR 26",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:3,om:"12ª Cia Com Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"58",qntRecolher:"XX",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:4,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12245695",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 02 MAR 26",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:5,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTP - PALIO",eb34:"FINAL DO CHASSIS: T237924",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"04 - 30 ABR 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:6,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTP - KOMBI",eb34:"71133546",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:7,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTNE MBB 5T",eb34:"12204298",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:8,om:"12ª Cia E Cmb Amv",classe:"VI",material:"COLETE SALVA-VIDAS",eb34:"-",qntOm:"XX",qntRecolher:50,odr:"XX",boletim:"02 - 28 FEV 25",obs:"Dcg homologada",status:"homologada",acao:"outros"},
-            {id:9,om:"12ª Cia E Cmb Amv",classe:"VI",material:"MOTOR DE POPA",eb34:"-",qntOm:"XX",qntRecolher:10,odr:"XX",boletim:"02 - 28 FEV 25",obs:"Dcg homologada",status:"homologada",acao:"outros"},
-            {id:10,om:"12ª Cia E Cmb Amv",classe:"VI",material:"EMBARCACAO DE REC",eb34:"-",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"06 - 02 JUL 25",obs:"Dcg homologada",status:"homologada",acao:"outros"},
-            {id:11,om:"12ª Cia E Cmb Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"285",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:12,om:"12ª Cia E Cmb Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"21",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:13,om:"12º Pel PE Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:84,odr:"24 - 07 ABR 26",boletim:"10 - 30 OUT 25",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:14,om:"12º Pel PE Amv",classe:"IX",material:"VTP - FIESTA",eb34:"71152965",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"03 - 06 JUN 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:15,om:"20º GAC Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"419",qntRecolher:"XX",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:16,om:"20º GAC Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"119",qntRecolher:"XX",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:17,om:"22º B Log Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:125,odr:"XX",boletim:"01 - 02 JAN 25",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:18,om:"22º B Log Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:243,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:19,om:"22º B Log Amv",classe:"IX",material:"VRNE 1T",eb34:"16063206",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 20 MAIO 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:20,om:"22º B Log Amv",classe:"IX",material:"VTP - OPALA",eb34:"71048180",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"05 - 04 SET 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:21,om:"22º B Log Amv",classe:"IX",material:"VTNE - 1T",eb34:"12069272",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:22,om:"22º B Log Amv",classe:"IX",material:"VTNE - 1T",eb34:"12069272",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:23,om:"22º B Log Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12084053",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"08 - 03 SET 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:24,om:"22º B Log Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"63",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:25,om:"22º B Log Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"130",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:26,om:"2º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:183,odr:"XX",boletim:"04 - 19 JUN 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:27,om:"2º BI Amv",classe:"IX",material:"VTP - FIESTA",eb34:"71129749",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"05 - 04 SET 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:28,om:"2º BI Amv",classe:"IX",material:"VTP - PALIO",eb34:"71100191",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"XX",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:29,om:"2º BI Amv",classe:"IX",material:"VRE - CIST AGUA",eb34:"17096178",qntOm:"XX",qntRecolher:2,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:30,om:"2º BI Amv",classe:"IX",material:"VRE - 1 A/2T",eb34:"16066595, 16066607",qntOm:"XX",qntRecolher:2,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:31,om:"2º BI Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12183920",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"08 - 03 SET 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:32,om:"2º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"175",qntRecolher:"XX",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:33,om:"2º BI Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"720",qntRecolher:"XX",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:34,om:"5ª Bia AAAe Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12274293",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"08 - 03 SET 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:35,om:"5ª Bia AAAe Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"443",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:36,om:"5ª Bia AAAe Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"20",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:37,om:"5º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:424,odr:"XX",boletim:"05 - 28 MAIO 26",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:38,om:"5º BI Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:225,odr:"XX",boletim:"05 - 28 MAIO 26",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:39,om:"5º BI Amv",classe:"II",material:"PLACA DE PROTECAO BALISTICA",eb34:"-",qntOm:"XX",qntRecolher:244,odr:"XX",boletim:"05 - 28 MAIO 26",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:40,om:"5º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:154,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:41,om:"5º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:154,odr:"XX",boletim:"08 - 03 SET 25",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:42,om:"5º BI Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12158872",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 02 MAR 26",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:43,om:"5º BI Amv",classe:"IX",material:"VRE - 1/2T",eb34:"75177436",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:44,om:"5º BI Amv",classe:"IX",material:"VTNE MBB 5T",eb34:"12070984, 12070972",qntOm:"XX",qntRecolher:2,odr:"XX",boletim:"07 - 04 AGO 25",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:45,om:"6º BI Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:383,odr:"XX",boletim:"01 - 02 JAN 25",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:46,om:"6º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:32,odr:"XX",boletim:"03 - 31 MAR 26",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:47,om:"6º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:95,odr:"XX",boletim:"04 - 19 JUN 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:48,om:"6º BI Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:124,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:49,om:"6º BI Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:204,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:50,om:"6º BI Amv",classe:"IX",material:"VTNE MBB 5T",eb34:"12035780",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"01 - 25 ABR 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:51,om:"6º BI Amv",classe:"IX",material:"VTNE MBB 5T",eb34:"1203578",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"05 - 04 SET 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:52,om:"6º BI Amv",classe:"IX",material:"VTP - MOTOCICLETA",eb34:"71083027",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"05 - 04 SET 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:53,om:"6º BI Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12178674, 12178686, 12145796, 12245760",qntOm:"XX",qntRecolher:4,odr:"XX",boletim:"05 - 04 SET 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:54,om:"6º BI Amv",classe:"IX",material:"VTE - CISTERNA",eb34:"12118594",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"05 - 04 SET 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:55,om:"Bda Inf Amv (OI)",classe:"V",material:"BINOCULO ZENITH (Cl V)",eb34:"-",qntOm:"XX",qntRecolher:2,odr:"XX",boletim:"02 - 28 FEV 25",obs:"Dcg homologada",status:"homologada",acao:"outros"},
-            {id:56,om:"Bda Inf Amv (OI)",classe:"V",material:"BINOCULO M48 (Cl V)",eb34:"-",qntOm:"XX",qntRecolher:2,odr:"XX",boletim:"02 - 28 FEV 25",obs:"Dcg homologada",status:"homologada",acao:"outros"},
-            {id:57,om:"Bda Inf Amv (OI)",classe:"V",material:"LUNETA BSHNELL (Cl V)",eb34:"-",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 28 FEV 25",obs:"Dcg homologada",status:"homologada",acao:"outros"},
-            {id:58,om:"Cia C Bda Inf Amv",classe:"II",material:"COLETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:10,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:59,om:"Cia C Bda Inf Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:44,odr:"XX",boletim:"07 - 06 DEZ 24",obs:"Dcg homologada - Recolhimento ao OP para destruicao",status:"homologada",acao:"destruicao"},
-            {id:60,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTNE - LAND ROVER",eb34:"12071813",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 02 MAR 26",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:61,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTNE - MARRUA",eb34:"12206580",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"02 - 02 MAR 26",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:62,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTP - SANTANA",eb34:"FINAL CHASSIS: P003546; P003669",qntOm:"XX",qntRecolher:2,odr:"XX",boletim:"03 - 06 JUN 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:63,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTP - PALIO",eb34:"71077611",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"03 - 06 JUN 24",obs:"Dcg homologada - Alienar no 22º B Log Amv",status:"homologada",acao:"alienacao"},
-            {id:64,om:"Cia C Bda Inf Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"164",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:65,om:"1º Esqd C Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"540",qntRecolher:"-",odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 1a RM",status:"pendente",acao:"outros"},
-            {id:66,om:"1º Esqd C Amv",classe:"II",material:"CAPACETE BALISTICO",eb34:"-",qntOm:"XX",qntRecolher:446,odr:"XX",boletim:"XX",obs:"Material recolhido ao 1o Dsup",status:"recolhido",acao:"outros"},
-            {id:67,om:"2º BI Amv",classe:"IX",material:"VTNE - LAND ROVER 130",eb34:"12002345",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:68,om:"2º BI Amv",classe:"IX",material:"VTP - FIESTA",eb34:"71180705",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"},
-            {id:69,om:"2º BI Amv",classe:"IX",material:"VTE - AMB SPRINTER",eb34:"73018033",qntOm:"XX",qntRecolher:1,odr:"XX",boletim:"XX",obs:"Processo de Dcg enviado para a 2a RM",status:"pendente",acao:"outros"}
-        ];
-
-        const omOrder = [
-            "Bda Inf Amv (OI)",
-            "Cia C Bda Inf Amv",
-            "2º BI Amv",
-            "5º BI Amv",
-            "6º BI Amv",
-            "5ª Bia AAAe Amv",
-            "20º GAC Amv",
-            "12ª Cia Com Amv",
-            "12ª Cia E Cmb Amv",
-            "12º Pel PE Amv",
-            "22º B Log Amv",
-            "1º Esqd C Amv"
-        ];
-        function getOmOrder(om) { const i = omOrder.indexOf(om); return i >= 0 ? i : 999; }
-
-        let data = JSON.parse(localStorage.getItem('controleMaterial'));
-        if (!data || data.length === 0) data = [...defaultData];
-        let filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
+        let data = [];
+        let filteredData = [];
         let sortDirection = {};
         let editingId = null;
         let deleteId = null;
-
-        function saveData() { localStorage.setItem('controleMaterial', JSON.stringify(data)); }
-        function getNextId() { return data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1; }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -468,7 +384,7 @@
             filteredData = data.filter(item => {
                 const ms = !search || item.om.toLowerCase().includes(search) || item.material.toLowerCase().includes(search) || item.eb34.toLowerCase().includes(search) || item.obs.toLowerCase().includes(search);
                 return ms && (!classe || item.classe === classe) && (!status || item.status === status) && (!acao || item.acao === acao);
-            }).sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
+            }).sort((a, b) => _getOmOrder(a.om) - _getOmOrder(b.om));
             renderTable();
         }
 
@@ -477,7 +393,7 @@
             document.getElementById('filterClasse').value = '';
             document.getElementById('filterStatus').value = '';
             document.getElementById('filterAcao').value = '';
-            filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
+            filteredData = sortData(data);
             renderTable();
         }
 
@@ -487,8 +403,7 @@
             sortDirection[key] = !sortDirection[key];
             filteredData.sort((a, b) => {
                 if (key === 'om') {
-                    const va = getOmOrder(a.om);
-                    const vb = getOmOrder(b.om);
+                    const va = _getOmOrder(a.om), vb = _getOmOrder(b.om);
                     return sortDirection[key] ? va - vb : vb - va;
                 }
                 let va = a[key], vb = b[key];
@@ -523,13 +438,10 @@
         function closeDeleteModal() { deleteId = null; document.getElementById('deleteModal').classList.remove('active'); document.getElementById('deletePassword').value = ''; }
         function confirmDelete() {
             const senha = document.getElementById('deletePassword').value;
-            if (senha !== 'a23741') {
-                showToast('Senha incorreta!', 'error');
-                return;
-            }
+            if (senha !== 'a23741') { showToast('Senha incorreta!', 'error'); return; }
             data = data.filter(d => d.id !== deleteId);
-            saveData();
-            filteredData = [...data].sort((a, b) => getOmOrder(a.om) - getOmOrder(b.om));
+            saveData(data);
+            filteredData = sortData(data);
             renderTable();
             closeDeleteModal();
             document.getElementById('deletePassword').value = '';
@@ -552,9 +464,7 @@
             const qntRecolher = document.getElementById('formQtdRecolher').value.trim();
             const parsed = parseInt(qntRecolher);
             const rec = {
-                om: om,
-                classe: document.getElementById('formClasse').value,
-                material: material,
+                om: om, classe: document.getElementById('formClasse').value, material: material,
                 eb34: document.getElementById('formEb34').value.trim() || '-',
                 qntOm: document.getElementById('formQtdOm').value.trim() || 'XX',
                 qntRecolher: !isNaN(parsed) ? parsed : qntRecolher || '-',
@@ -566,15 +476,15 @@
             };
             if (editingId) {
                 const idx = data.findIndex(d => d.id === editingId);
-                if (idx !== -1) { data[idx] = {...data[idx], ...rec}; }
+                if (idx !== -1) data[idx] = {...data[idx], ...rec};
                 showToast('Registro atualizado com sucesso!', 'success');
             } else {
-                rec.id = getNextId();
+                rec.id = getNextId(data);
                 data.push(rec);
                 showToast('Novo registro adicionado com sucesso!', 'success');
             }
-            saveData();
-            filteredData = [...data];
+            saveData(data);
+            filteredData = sortData(data);
             renderTable();
             clearForm();
             switchTab('consulta');
@@ -589,16 +499,21 @@
 
         function printTable() { window.print(); }
 
+        async function init() {
+            data = await loadData();
+            data = sortData(data);
+            filteredData = [...data];
+            renderTable();
+            document.getElementById('currentDate').textContent = formatDate();
+            showSyncStatus('Online', 'ok');
+        }
+
         document.getElementById('searchInput').addEventListener('input', filterData);
         document.getElementById('filterClasse').addEventListener('change', filterData);
         document.getElementById('filterStatus').addEventListener('change', filterData);
         document.getElementById('filterAcao').addEventListener('change', filterData);
 
-        const today = new Date();
-        const options = { day: '2-digit', month: 'long', year: 'numeric' };
-        document.getElementById('currentDate').textContent = today.toLocaleDateString('pt-BR', options);
-
-        renderTable();
+        init();
     </script>
 </body>
 </html>

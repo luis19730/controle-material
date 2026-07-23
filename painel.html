@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="data.js"></script>
     <style>
         :root {
             --primary: #556b2f; --primary-dark: #3d4f1f; --primary-light: #6b8e23;
@@ -145,188 +146,99 @@
     </div>
 
     <script>
-        const defaultData = [
-            {id:1,om:"12ª Cia Com Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:48,status:"homologada",acao:"destruicao"},
-            {id:2,om:"12ª Cia Com Amv",classe:"IX",material:"VTE - COM - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:3,om:"12ª Cia Com Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"58",qtdRecolher:"XX",status:"pendente",acao:"outros"},
-            {id:4,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:5,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTP - PALIO",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:6,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTP - KOMBI",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:7,om:"12ª Cia E Cmb Amv",classe:"IX",material:"VTNE MBB 5T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:8,om:"12ª Cia E Cmb Amv",classe:"VI",material:"COLETE SALVA-VIDAS",qntOm:"XX",qtdRecolher:50,status:"homologada",acao:"outros"},
-            {id:9,om:"12ª Cia E Cmb Amv",classe:"VI",material:"MOTOR DE POPA",qntOm:"XX",qtdRecolher:10,status:"homologada",acao:"outros"},
-            {id:10,om:"12ª Cia E Cmb Amv",classe:"VI",material:"EMBARCACAO DE REC",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"outros"},
-            {id:11,om:"12ª Cia E Cmb Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"285",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:12,om:"12ª Cia E Cmb Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"21",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:13,om:"12º Pel PE Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:84,status:"homologada",acao:"destruicao"},
-            {id:14,om:"12º Pel PE Amv",classe:"IX",material:"VTP - FIESTA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:15,om:"20º GAC Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"419",qtdRecolher:"XX",status:"pendente",acao:"outros"},
-            {id:16,om:"20º GAC Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"119",qtdRecolher:"XX",status:"pendente",acao:"outros"},
-            {id:17,om:"22º B Log Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:125,status:"homologada",acao:"destruicao"},
-            {id:18,om:"22º B Log Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:243,status:"homologada",acao:"destruicao"},
-            {id:19,om:"22º B Log Amv",classe:"IX",material:"VRNE 1T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:20,om:"22º B Log Amv",classe:"IX",material:"VTP - OPALA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:21,om:"22º B Log Amv",classe:"IX",material:"VTNE - 1T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:22,om:"22º B Log Amv",classe:"IX",material:"VTNE - 1T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:23,om:"22º B Log Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:24,om:"22º B Log Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"63",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:25,om:"22º B Log Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"130",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:26,om:"2º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:183,status:"homologada",acao:"destruicao"},
-            {id:27,om:"2º BI Amv",classe:"IX",material:"VTP - FIESTA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:28,om:"2º BI Amv",classe:"IX",material:"VTP - PALIO",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:29,om:"2º BI Amv",classe:"IX",material:"VRE - CIST AGUA",qntOm:"XX",qtdRecolher:2,status:"homologada",acao:"alienacao"},
-            {id:30,om:"2º BI Amv",classe:"IX",material:"VRE - 1 A/2T",qntOm:"XX",qtdRecolher:2,status:"homologada",acao:"alienacao"},
-            {id:31,om:"2º BI Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:32,om:"2º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"175",qtdRecolher:"XX",status:"pendente",acao:"outros"},
-            {id:33,om:"2º BI Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"720",qtdRecolher:"XX",status:"pendente",acao:"outros"},
-            {id:34,om:"5ª Bia AAAe Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:35,om:"5ª Bia AAAe Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"443",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:36,om:"5ª Bia AAAe Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"20",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:37,om:"5º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:424,status:"homologada",acao:"destruicao"},
-            {id:38,om:"5º BI Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"XX",qtdRecolher:225,status:"homologada",acao:"destruicao"},
-            {id:39,om:"5º BI Amv",classe:"II",material:"PLACA DE PROTECAO BALISTICA",qntOm:"XX",qtdRecolher:244,status:"homologada",acao:"destruicao"},
-            {id:40,om:"5º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:154,status:"homologada",acao:"destruicao"},
-            {id:41,om:"5º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:154,status:"homologada",acao:"destruicao"},
-            {id:42,om:"5º BI Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:43,om:"5º BI Amv",classe:"IX",material:"VRE - 1/2T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:44,om:"5º BI Amv",classe:"IX",material:"VTNE MBB 5T",qntOm:"XX",qtdRecolher:2,status:"homologada",acao:"alienacao"},
-            {id:45,om:"6º BI Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"XX",qtdRecolher:383,status:"homologada",acao:"destruicao"},
-            {id:46,om:"6º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:32,status:"homologada",acao:"destruicao"},
-            {id:47,om:"6º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:95,status:"homologada",acao:"destruicao"},
-            {id:48,om:"6º BI Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"XX",qtdRecolher:124,status:"homologada",acao:"destruicao"},
-            {id:49,om:"6º BI Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:204,status:"homologada",acao:"destruicao"},
-            {id:50,om:"6º BI Amv",classe:"IX",material:"VTNE MBB 5T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:51,om:"6º BI Amv",classe:"IX",material:"VTNE MBB 5T",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:52,om:"6º BI Amv",classe:"IX",material:"VTP - MOTOCICLETA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:53,om:"6º BI Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:4,status:"homologada",acao:"alienacao"},
-            {id:54,om:"6º BI Amv",classe:"IX",material:"VTE - CISTERNA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:55,om:"Bda Inf Amv (OI)",classe:"V",material:"BINOCULO ZENITH",qntOm:"XX",qtdRecolher:2,status:"homologada",acao:"outros"},
-            {id:56,om:"Bda Inf Amv (OI)",classe:"V",material:"BINOCULO M48",qntOm:"XX",qtdRecolher:2,status:"homologada",acao:"outros"},
-            {id:57,om:"Bda Inf Amv (OI)",classe:"V",material:"LUNETA BSHNELL",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"outros"},
-            {id:58,om:"Cia C Bda Inf Amv",classe:"II",material:"COLETE BALISTICO",qntOm:"XX",qtdRecolher:10,status:"homologada",acao:"destruicao"},
-            {id:59,om:"Cia C Bda Inf Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:44,status:"homologada",acao:"destruicao"},
-            {id:60,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTNE - LAND ROVER",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:61,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTNE - MARRUA",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:62,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTP - SANTANA",qntOm:"XX",qtdRecolher:2,status:"homologada",acao:"alienacao"},
-            {id:63,om:"Cia C Bda Inf Amv",classe:"IX",material:"VTP - PALIO",qntOm:"XX",qtdRecolher:1,status:"homologada",acao:"alienacao"},
-            {id:64,om:"Cia C Bda Inf Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"164",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:65,om:"1º Esqd C Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"540",qtdRecolher:"-",status:"pendente",acao:"outros"},
-            {id:66,om:"1º Esqd C Amv",classe:"II",material:"CAPACETE BALISTICO",qntOm:"XX",qtdRecolher:446,status:"recolhido",acao:"outros"},
-            {id:67,om:"2º BI Amv",classe:"IX",material:"VTNE - LAND ROVER 130",qntOm:"XX",qtdRecolher:1,status:"pendente",acao:"outros"},
-            {id:68,om:"2º BI Amv",classe:"IX",material:"VTP - FIESTA",qntOm:"XX",qtdRecolher:1,status:"pendente",acao:"outros"},
-            {id:69,om:"2º BI Amv",classe:"IX",material:"VTE - AMB SPRINTER",qntOm:"XX",qtdRecolher:1,status:"pendente",acao:"outros"}
-        ];
-
-        const omOrder = [
-            "Bda Inf Amv (OI)",
-            "Cia C Bda Inf Amv",
-            "2º BI Amv",
-            "5º BI Amv",
-            "6º BI Amv",
-            "5ª Bia AAAe Amv",
-            "20º GAC Amv",
-            "12ª Cia Com Amv",
-            "12ª Cia E Cmb Amv",
-            "12º Pel PE Amv",
-            "22º B Log Amv",
-            "1º Esqd C Amv"
-        ];
         function omSort(a, b) {
             const omA = Array.isArray(a) ? a[0] : a;
             const omB = Array.isArray(b) ? b[0] : b;
-            const ia = omOrder.indexOf(omA);
-            const ib = omOrder.indexOf(omB);
-            const va = ia >= 0 ? ia : 999;
-            const vb = ib >= 0 ? ib : 999;
-            return va - vb;
+            return _getOmOrder(omA) - _getOmOrder(omB);
         }
 
-        const rawData = JSON.parse(localStorage.getItem('controleMaterial'));
-        const data = (!rawData || rawData.length === 0) ? defaultData : rawData;
+        async function renderAll(data) {
+            const total = data.length;
+            const oms = [...new Set(data.map(d => d.om))];
+            const homologadas = data.filter(d => d.status === 'homologada').length;
+            const pendentes = data.filter(d => d.status === 'pendente').length;
+            const recolhidos = data.filter(d => d.status === 'recolhido').length;
+            const qtdRecolher = data.reduce((s, d) => s + (typeof d.qtdRecolher === 'number' ? d.qtdRecolher : 0), 0);
+            const resolvidos = homologadas + recolhidos;
+            const pctResolvido = total > 0 ? Math.round((resolvidos / total) * 100) : 0;
+            const destruicao = data.filter(d => d.acao === 'destruicao').length;
+            const alienacao = data.filter(d => d.acao === 'alienacao').length;
 
-        const total = data.length;
-        const oms = [...new Set(data.map(d => d.om))];
-        const homologadas = data.filter(d => d.status === 'homologada').length;
-        const pendentes = data.filter(d => d.status === 'pendente').length;
-        const recolhidos = data.filter(d => d.status === 'recolhido').length;
-        const qtdRecolher = data.reduce((s, d) => s + (typeof d.qtdRecolher === 'number' ? d.qtdRecolher : 0), 0);
-        const resolvidos = homologadas + recolhidos;
-        const pctResolvido = total > 0 ? Math.round((resolvidos / total) * 100) : 0;
-        const destruicao = data.filter(d => d.acao === 'destruicao').length;
-        const alienacao = data.filter(d => d.acao === 'alienacao').length;
+            document.getElementById('kpiGrid').innerHTML = `
+                <div class="kpi-card"><div class="kpi-value blue">${total}</div><div class="kpi-label">Total de Itens</div></div>
+                <div class="kpi-card info"><div class="kpi-value teal">${oms.length}</div><div class="kpi-label">OMs Envolvidas</div></div>
+                <div class="kpi-card success"><div class="kpi-value green">${homologadas}</div><div class="kpi-label">DCGs Homologadas</div></div>
+                <div class="kpi-card warn"><div class="kpi-value yellow">${pendentes}</div><div class="kpi-label">Processos Pendentes</div></div>
+                <div class="kpi-card danger"><div class="kpi-value red">${qtdRecolher}</div><div class="kpi-label">Qtd Total a Recolher</div></div>
+                <div class="kpi-card success"><div class="kpi-value green">${pctResolvido}%</div><div class="kpi-label">Taxa de Resolucao</div></div>
+                <div class="kpi-card danger"><div class="kpi-value red">${destruicao}</div><div class="kpi-label">Destruicao</div></div>
+                <div class="kpi-card info"><div class="kpi-value teal">${alienacao}</div><div class="kpi-label">Alienacao</div></div>
+            `;
 
-        document.getElementById('kpiGrid').innerHTML = `
-            <div class="kpi-card"><div class="kpi-value blue">${total}</div><div class="kpi-label">Total de Itens</div></div>
-            <div class="kpi-card info"><div class="kpi-value teal">${oms.length}</div><div class="kpi-label">OMs Envolvidas</div></div>
-            <div class="kpi-card success"><div class="kpi-value green">${homologadas}</div><div class="kpi-label">DCGs Homologadas</div></div>
-            <div class="kpi-card warn"><div class="kpi-value yellow">${pendentes}</div><div class="kpi-label">Processos Pendentes</div></div>
-            <div class="kpi-card danger"><div class="kpi-value red">${qtdRecolher}</div><div class="kpi-label">Qtd Total a Recolher</div></div>
-            <div class="kpi-card success"><div class="kpi-value green">${pctResolvido}%</div><div class="kpi-label">Taxa de Resolucao</div></div>
-            <div class="kpi-card danger"><div class="kpi-value red">${destruicao}</div><div class="kpi-label">Destruicao</div></div>
-            <div class="kpi-card info"><div class="kpi-value teal">${alienacao}</div><div class="kpi-label">Alienacao</div></div>
-        `;
+            const chartColors = ['#6ba3be','#7bc8a4','#d4b96a','#c97f7f','#6db5aa','#a3c4b8','#b5a3a3','#9b8ec4'];
+            Chart.defaults.color = '#8a9aa5';
+            Chart.defaults.font.family = 'Arial Black';
 
-        const chartColors = ['#6ba3be','#7bc8a4','#d4b96a','#c97f7f','#6db5aa','#a3c4b8','#b5a3a3','#9b8ec4'];
-        Chart.defaults.color = '#8a9aa5';
-        Chart.defaults.font.family = 'Arial Black';
+            const classes = {};
+            data.forEach(d => { classes[d.classe] = (classes[d.classe] || 0) + 1; });
+            new Chart(document.getElementById('chartClasse'), {
+                type: 'doughnut',
+                data: { labels: Object.keys(classes), datasets: [{ data: Object.values(classes), backgroundColor: chartColors, borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
+            });
 
-        const classes = {};
-        data.forEach(d => { classes[d.classe] = (classes[d.classe] || 0) + 1; });
-        new Chart(document.getElementById('chartClasse'), {
-            type: 'doughnut',
-            data: { labels: Object.keys(classes), datasets: [{ data: Object.values(classes), backgroundColor: chartColors, borderWidth: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
-        });
+            new Chart(document.getElementById('chartStatus'), {
+                type: 'doughnut',
+                data: { labels: ['Homologadas','Pendentes','Recolhidos'], datasets: [{ data: [homologadas, pendentes, recolhidos], backgroundColor: ['#7bc8a4','#d4b96a','#c97f7f'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
+            });
 
-        new Chart(document.getElementById('chartStatus'), {
-            type: 'doughnut',
-            data: { labels: ['Homologadas','Pendentes','Recolhidos'], datasets: [{ data: [homologadas, pendentes, recolhidos], backgroundColor: ['#7bc8a4','#d4b96a','#c97f7f'], borderWidth: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
-        });
+            new Chart(document.getElementById('chartAcao'), {
+                type: 'pie',
+                data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, data.filter(d => d.acao === 'outros').length], backgroundColor: ['#c97f7f','#6db5aa','#d4b96a'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
+            });
 
-        new Chart(document.getElementById('chartAcao'), {
-            type: 'pie',
-            data: { labels: ['Destruicao','Alienacao','Outros'], datasets: [{ data: [destruicao, alienacao, data.filter(d => d.acao === 'outros').length], backgroundColor: ['#c97f7f','#6db5aa','#d4b96a'], borderWidth: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { padding: 15 } } } }
-        });
+            const omCounts = {};
+            data.forEach(d => { omCounts[d.om] = (omCounts[d.om] || 0) + 1; });
+            const sortedOms = Object.entries(omCounts).sort(omSort).slice(0, 15);
+            new Chart(document.getElementById('chartOm'), {
+                type: 'bar',
+                data: { labels: sortedOms.map(e => e[0]), datasets: [{ label: 'Itens', data: sortedOms.map(e => e[1]), backgroundColor: '#6ba3be', borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' } }, y: { grid: { display: false } } } }
+            });
 
-        const omCounts = {};
-        data.forEach(d => { omCounts[d.om] = (omCounts[d.om] || 0) + 1; });
-        const sortedOms = Object.entries(omCounts).sort(omSort).slice(0, 15);
-        new Chart(document.getElementById('chartOm'), {
-            type: 'bar',
-            data: { labels: sortedOms.map(e => e[0]), datasets: [{ label: 'Itens', data: sortedOms.map(e => e[1]), backgroundColor: '#6ba3be', borderRadius: 6 }] },
-            options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' } }, y: { grid: { display: false } } } }
-        });
+            const omData = {};
+            data.forEach(d => {
+                if (!omData[d.om]) omData[d.om] = { total: 0, resolvidos: 0 };
+                omData[d.om].total++;
+                if (d.status === 'homologada' || d.status === 'recolhido') omData[d.om].resolvidos++;
+            });
 
-        const omData = {};
-        data.forEach(d => {
-            if (!omData[d.om]) omData[d.om] = { total: 0, resolvidos: 0 };
-            omData[d.om].total++;
-            if (d.status === 'homologada' || d.status === 'recolhido') omData[d.om].resolvidos++;
-        });
+            const progressHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
+                const pct = Math.round((info.resolvidos / info.total) * 100);
+                const cls = pct >= 80 ? 'blue' : pct >= 50 ? 'yellow' : 'red';
+                return `<div class="progress-item"><div class="progress-header"><span class="progress-name">${om}</span><span class="progress-pct">${info.resolvidos}/${info.total} (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></div>`;
+            }).join('');
+            document.getElementById('progressList').innerHTML = progressHtml;
 
-        const progressHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
-            const pct = Math.round((info.resolvidos / info.total) * 100);
-            const cls = pct >= 80 ? 'blue' : pct >= 50 ? 'yellow' : 'red';
-            return `<div class="progress-item"><div class="progress-header"><span class="progress-name">${om}</span><span class="progress-pct">${info.resolvidos}/${info.total} (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div></div>`;
-        }).join('');
-        document.getElementById('progressList').innerHTML = progressHtml;
+            const tableHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
+                const hom = data.filter(d => d.om === om && d.status === 'homologada').length;
+                const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
+                const qntOm = data.filter(d => d.om === om).map(d => d.qntOm).join(', ');
+                const qr = data.filter(d => d.om === om && typeof d.qtdRecolher === 'number').reduce((s,d) => s + d.qtdRecolher, 0);
+                const pct = Math.round((info.resolvidos / info.total) * 100);
+                const materiais = [...new Set(data.filter(d => d.om === om).map(d => d.material))].join(', ');
+                return `<tr><td><strong>${om}</strong></td><td style="max-width:350px;font-size:0.8em;color:#8a9aa5">${materiais}</td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td style="font-size:0.8em">${qntOm}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
+            }).join('');
+            document.getElementById('omTable').innerHTML = tableHtml;
+        }
 
-        const tableHtml = Object.entries(omData).sort(omSort).map(([om, info]) => {
-            const hom = data.filter(d => d.om === om && d.status === 'homologada').length;
-            const pend = data.filter(d => d.om === om && d.status === 'pendente').length;
-            const qntOm = data.filter(d => d.om === om).map(d => d.qntOm).join(', ');
-            const qr = data.filter(d => d.om === om && typeof d.qntRecolher === 'number').reduce((s,d) => s + d.qntRecolher, 0);
-            const pct = Math.round((info.resolvidos / info.total) * 100);
-            const materiais = [...new Set(data.filter(d => d.om === om).map(d => d.material))].join(', ');
-            return `<tr><td><strong>${om}</strong></td><td style="max-width:350px;font-size:0.8em;color:#8a9aa5">${materiais}</td><td>${info.total}</td><td style="color:#7bc8a4">${hom}</td><td style="color:#d4b96a">${pend}</td><td style="font-size:0.8em">${qntOm}</td><td>${qr}</td><td style="color:${pct>=80?'#7bc8a4':pct>=50?'#d4b96a':'#c97f7f'}">${pct}%</td></tr>`;
-        }).join('');
-        document.getElementById('omTable').innerHTML = tableHtml;
-
-        const today = new Date();
-        const options = { day: '2-digit', month: 'long', year: 'numeric' };
-        document.getElementById('currentDate').textContent = today.toLocaleDateString('pt-BR', options);
+        (async function init() {
+            const data = await loadData();
+            renderAll(data);
+            document.getElementById('currentDate').textContent = formatDate();
+        })();
     </script>
 </body>
 </html>
