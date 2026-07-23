@@ -128,7 +128,6 @@ async function fetchDefaultData() {
 function startAutoRefresh(intervalMs) {
     if (_autoRefreshTimer) clearInterval(_autoRefreshTimer);
     _autoRefreshTimer = setInterval(async () => {
-        if (!_isConfigured()) return;
         const fresh = await fetchGitHubData();
         if (fresh && fresh.length > 0) {
             const oldJson = JSON.stringify(_data);
@@ -137,10 +136,11 @@ function startAutoRefresh(intervalMs) {
                 _data = fresh;
                 if (typeof renderTable === 'function') renderTable();
                 if (typeof renderAll === 'function') renderAll(_data);
+                updateLastUpdateDisplay();
                 showSyncStatus('Atualizado automaticamente!', 'ok');
             }
         }
-    }, intervalMs || 60000);
+    }, intervalMs || 30000);
 }
 
 // ============ UI helpers ============

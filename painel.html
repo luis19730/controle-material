@@ -239,6 +239,7 @@
             renderAll(data);
             document.getElementById('currentDate').textContent = formatDate();
             updateLastUpdateDisplay();
+            startAutoRefresh(30000);
         })();
     </script>
 </body>
