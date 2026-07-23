@@ -16,7 +16,9 @@ function sortData(arr) { return [...arr].sort((a, b) => _getOmOrder(a.om) - _get
 function getNextId(data) { return data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1; }
 
 async function loadData() {
-    _data = await fetchGitHubData();
+    if (_isConfigured()) {
+        _data = await fetchGitHubData();
+    }
     if (!_data || _data.length === 0) {
         _data = await fetchLocalData();
         if (!_data || _data.length === 0) {
@@ -53,9 +55,11 @@ function _getToken() {
 async function fetchGitHubData() {
     if (!_isConfigured()) return null;
     try {
-        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.dataFile}`;
+        const timestamp = Date.now();
+        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.dataFile}?t=${timestamp}`;
         const resp = await fetch(url, {
-            headers: { 'Authorization': `token ${_getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
+            cache: 'no-store',
+            headers: { 'Authorization': `token ${_getToken()}`, 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache, no-store, must-revalidate' }
         });
         if (!resp.ok) return null;
         const json = await resp.json();
