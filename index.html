@@ -182,6 +182,7 @@
                     <span style="color:rgba(255,255,255,0.5);">|</span>
                     <span>Ultima atualizacao: <span id="lastUpdate">...</span></span>
                     <button onclick="manualRefresh()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Sincronizar</button>
+                    <button onclick="forceReload()" style="background:rgba(255,0,0,0.3);border:1px solid rgba(255,100,100,0.3);color:white;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:inherit;font-weight:600;">Limpar Cache</button>
                 </div>
             </div>
         </header>
@@ -529,6 +530,23 @@
         document.getElementById('filterClasse').addEventListener('change', filterData);
         document.getElementById('filterStatus').addEventListener('change', filterData);
         document.getElementById('filterAcao').addEventListener('change', filterData);
+
+        async function forceReload() {
+            showSyncStatus('Limpando cache...', '');
+            localStorage.removeItem('controleMaterial');
+            localStorage.removeItem('lastUpdate');
+            const fresh = await fetchGitHubData();
+            if (fresh && fresh.length > 0) {
+                _data = fresh;
+                data = sortData(_data);
+                filteredData = [...data];
+                renderTable();
+                updateLastUpdateDisplay();
+                showSyncStatus('Cache limpo e dados restaurados!', 'ok');
+            } else {
+                showSyncStatus('Erro ao restaurar dados', 'error');
+            }
+        }
 
         init();
     </script>
