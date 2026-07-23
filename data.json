@@ -964,19 +964,5 @@
     "obs": "Material recolhido ao 1o Dsup",
     "status": "recolhido",
     "acao": "outros"
-  },
-  {
-    "om": "Cia C Bda Inf Amv",
-    "classe": "II",
-    "material": "VTNE - MARRUA",
-    "eb34": "2222222",
-    "qntOm": "22",
-    "qntRecolher": "-",
-    "odr": "XX",
-    "boletim": "XX",
-    "obs": "-",
-    "status": "homologada",
-    "acao": "destruicao",
-    "id": 70
   }
 ]
