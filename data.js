@@ -188,17 +188,4 @@ function setGitHubToken(token) {
     console.log('Token configurado! Recarregue a pagina para aplicar.');
 }
 
-function promptToken() {
-    const existing = localStorage.getItem(TOKEN_KEY);
-    if (existing && existing.length > 10) return;
-    const token = prompt('Cole seu GitHub Token para ativar a sincronizacao:\n(Crie em https://github.com/settings/tokens com permissao "repo")');
-    if (token && token.length > 10) {
-        setGitHubToken(token);
-        location.reload();
-    }
-}
-
-if (!_isConfigured()) {
-    console.log('GitHub token nao configurado.');
-    setTimeout(promptToken, 1000);
-}
+// Token prompt removido - funcionalidade local sem necessidade de token
