@@ -252,7 +252,8 @@
                     </div>
                     <div class="form-group">
                         <label>Material</label>
-                        <input type="text" id="formMaterial" placeholder="Ex: CAPACETE BALISTICO">
+                        <select id="formMaterialSelect" onchange="toggleNewMaterial()"><option value="">Selecione o Material</option></select>
+                        <input type="text" id="formMaterial" placeholder="Digite o novo material" style="display:none;margin-top:6px;">
                     </div>
                     <div class="form-group">
                         <label>EB34</label>
@@ -369,6 +370,7 @@
                 </tr>
             `).join('');
             updateStats();
+            populateMaterials();
         }
 
         function updateStats() {
@@ -424,7 +426,18 @@
             document.getElementById('formTitle').textContent = 'Editar Registro #' + id;
             document.getElementById('formOm').value = item.om;
             document.getElementById('formClasse').value = item.classe;
-            document.getElementById('formMaterial').value = item.material;
+            const matSelect = document.getElementById('formMaterialSelect');
+            const matInput = document.getElementById('formMaterial');
+            const matOptions = Array.from(matSelect.options).map(o => o.value);
+            if (matOptions.includes(item.material)) {
+                matSelect.value = item.material;
+                matInput.style.display = 'none';
+                matInput.value = '';
+            } else {
+                matSelect.value = '__novo__';
+                matInput.style.display = 'block';
+                matInput.value = item.material;
+            }
             document.getElementById('formEb34').value = item.eb34;
             document.getElementById('formQtdOm').value = item.qntOm;
             document.getElementById('formQtdRecolher').value = item.qntRecolher;
@@ -457,7 +470,10 @@
             editingId = null;
             document.getElementById('formTitle').textContent = 'Novo Registro';
             document.getElementById('formOm').value = '';
-            ['formMaterial','formEb34','formQtdOm','formQtdRecolher','formOdr','formBoletim','formObs'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('formMaterialSelect').value = '';
+            document.getElementById('formMaterial').value = '';
+            document.getElementById('formMaterial').style.display = 'none';
+            ['formEb34','formQtdOm','formQtdRecolher','formOdr','formBoletim','formObs'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('formClasse').value = 'II';
             document.getElementById('formStatus').value = 'homologada';
             document.getElementById('formAcao').value = 'destruicao';
@@ -465,8 +481,10 @@
 
         async function saveRecord() {
             const om = document.getElementById('formOm').value;
-            const material = document.getElementById('formMaterial').value.trim();
-            if (!om || !material) { showToast('Selecione a OM e preencha o Material!', 'error'); return; }
+            const matSelect = document.getElementById('formMaterialSelect').value;
+            const matInput = document.getElementById('formMaterial').value.trim();
+            const material = matSelect === '__novo__' ? matInput : matSelect;
+            if (!om || !material) { showToast('Selecione a OM e o Material!', 'error'); return; }
             const qntRecolher = document.getElementById('formQtdRecolher').value.trim();
             const parsed = parseInt(qntRecolher);
             const rec = {
@@ -507,6 +525,33 @@
 
         function printTable() { window.print(); }
 
+        function toggleNewMaterial() {
+            const sel = document.getElementById('formMaterialSelect').value;
+            const inp = document.getElementById('formMaterial');
+            inp.style.display = sel === '__novo__' ? 'block' : 'none';
+            if (sel !== '__novo__') inp.value = '';
+        }
+
+        function populateMaterials() {
+            const select = document.getElementById('formMaterialSelect');
+            const current = select.value;
+            select.innerHTML = '<option value="">Selecione o Material</option>';
+            const materials = [...new Set(data.map(d => d.material))].sort();
+            materials.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m;
+                select.appendChild(opt);
+            });
+            const novoOpt = document.createElement('option');
+            novoOpt.value = '__novo__';
+            novoOpt.textContent = '+ Novo Material...';
+            novoOpt.style.fontWeight = '700';
+            novoOpt.style.color = 'var(--primary)';
+            select.appendChild(novoOpt);
+            if (current && Array.from(select.options).some(o => o.value === current)) select.value = current;
+        }
+
         async function init() {
             data = await loadData();
             data = sortData(data);
@@ -524,6 +569,7 @@
                 opt.textContent = om;
                 omSelect.appendChild(opt);
             });
+            populateMaterials();
         }
 
         document.getElementById('searchInput').addEventListener('input', filterData);
