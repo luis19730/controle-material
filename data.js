@@ -5,8 +5,10 @@ const OM_ORDER = [
     "12º Pel PE Amv","22º B Log Amv","1º Esqd C Amv"
 ];
 const LS_KEY = 'controleMaterial';
+const TOKEN_KEY = 'github_token';
 let _data = [];
 let _githubSha = null;
+let _autoRefreshTimer = null;
 
 function _getOmOrder(om) { const i = OM_ORDER.indexOf(om); return i >= 0 ? i : 999; }
 function sortData(arr) { return [...arr].sort((a, b) => _getOmOrder(a.om) - _getOmOrder(b.om)); }
@@ -33,9 +35,18 @@ async function saveData(data) {
 
 // ============ GitHub API ============
 function _isConfigured() {
-    return typeof GITHUB_CONFIG !== 'undefined' &&
-           GITHUB_CONFIG.token &&
-           GITHUB_CONFIG.token !== 'COLE_SEU_TOKEN_AQUI';
+    const t = _getToken();
+    return t && t !== 'COLE_SEU_TOKEN_AQUI' && t.length > 10;
+}
+
+function _getToken() {
+    if (typeof GITHUB_CONFIG !== 'undefined' && GITHUB_CONFIG.token) return GITHUB_CONFIG.token;
+    const stored = localStorage.getItem(TOKEN_KEY);
+    if (stored) {
+        if (typeof GITHUB_CONFIG !== 'undefined') GITHUB_CONFIG.token = stored;
+        return stored;
+    }
+    return '';
 }
 
 async function fetchGitHubData() {
@@ -43,7 +54,7 @@ async function fetchGitHubData() {
     try {
         const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.dataFile}`;
         const resp = await fetch(url, {
-            headers: { 'Authorization': `token ${GITHUB_CONFIG.token}`, 'Accept': 'application/vnd.github.v3+json' }
+            headers: { 'Authorization': `token ${_getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
         });
         if (!resp.ok) return null;
         const json = await resp.json();
@@ -59,14 +70,14 @@ async function fetchGitHubData() {
 }
 
 async function saveGitHubData(data) {
-    if (!_isConfigured()) return;
+    if (!_isConfigured()) return false;
     try {
         const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.dataFile}`;
         const body = { message: `Atualizado via Controle de Material - ${new Date().toLocaleString('pt-BR')}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2)))), branch: 'master' };
         if (_githubSha) body.sha = _githubSha;
         const resp = await fetch(url, {
             method: 'PUT',
-            headers: { 'Authorization': `token ${GITHUB_CONFIG.token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+            headers: { 'Authorization': `token ${_getToken()}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
             body: JSON.stringify(body)
         });
         if (resp.ok) {
@@ -110,6 +121,25 @@ async function fetchDefaultData() {
     return null;
 }
 
+// ============ auto refresh ============
+function startAutoRefresh(intervalMs) {
+    if (_autoRefreshTimer) clearInterval(_autoRefreshTimer);
+    _autoRefreshTimer = setInterval(async () => {
+        if (!_isConfigured()) return;
+        const fresh = await fetchGitHubData();
+        if (fresh && fresh.length > 0) {
+            const oldJson = JSON.stringify(_data);
+            const newJson = JSON.stringify(fresh);
+            if (oldJson !== newJson) {
+                _data = fresh;
+                if (typeof renderTable === 'function') renderTable();
+                if (typeof renderAll === 'function') renderAll(_data);
+                showSyncStatus('Atualizado automaticamente!', 'ok');
+            }
+        }
+    }, intervalMs || 60000);
+}
+
 // ============ UI helpers ============
 function showSyncStatus(msg, type) {
     let el = document.getElementById('syncStatus');
@@ -125,7 +155,7 @@ async function manualRefresh() {
         _data = fresh;
         showSyncStatus('Sincronizado!', 'ok');
         if (typeof renderTable === 'function') renderTable();
-        if (typeof renderAll === 'function') renderAll();
+        if (typeof renderAll === 'function') renderAll(_data);
     } else {
         showSyncStatus('Sem conexao - dados locais', '');
     }
@@ -137,11 +167,22 @@ function formatDate() {
 }
 
 function setGitHubToken(token) {
-    localStorage.setItem('github_token', token);
-    GITHUB_CONFIG.token = token;
+    localStorage.setItem(TOKEN_KEY, token);
+    if (typeof GITHUB_CONFIG !== 'undefined') GITHUB_CONFIG.token = token;
     console.log('Token configurado! Recarregue a pagina para aplicar.');
 }
 
-if (!GITHUB_CONFIG.token) {
-    console.log('GitHub token nao configurado. Execute: setGitHubToken("SEU_TOKEN")');
+function promptToken() {
+    const existing = localStorage.getItem(TOKEN_KEY);
+    if (existing && existing.length > 10) return;
+    const token = prompt('Cole seu GitHub Token para ativar a sincronizacao:\n(Crie em https://github.com/settings/tokens com permissao "repo")');
+    if (token && token.length > 10) {
+        setGitHubToken(token);
+        location.reload();
+    }
+}
+
+if (!_isConfigured()) {
+    console.log('GitHub token nao configurado.');
+    setTimeout(promptToken, 1000);
 }

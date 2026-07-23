@@ -509,8 +509,9 @@
             filteredData = [...data];
             renderTable();
             document.getElementById('currentDate').textContent = formatDate();
-            const configured = typeof GITHUB_CONFIG !== 'undefined' && GITHUB_CONFIG.token && GITHUB_CONFIG.token !== '' && !GITHUB_CONFIG.token.startsWith('COLE_');
+            const configured = _isConfigured();
             showSyncStatus(configured ? 'Online' : 'Sem conexao - dados locais', configured ? 'ok' : '');
+            if (configured) startAutoRefresh(60000);
         }
 
         document.getElementById('searchInput').addEventListener('input', filterData);
