@@ -189,6 +189,24 @@
             });
 
             document.getElementById('omSections').innerHTML = sectionsHtml;
+
+            if (finalizedData.length > 0) {
+                const finalHtml = `
+                    <div class="om-section" id="finalizados_section">
+                        <div class="om-title" style="background:linear-gradient(135deg, var(--accent), var(--accent-light));">Processos Finalizados (${finalizedData.length})</div>
+                        <div class="om-table-wrap">
+                            <table class="om-table">
+                                <thead><tr><th>OM</th><th>Classe</th><th>Material</th><th>QNT na OM</th><th>Processo Finalizado</th></tr></thead>
+                                <tbody>
+                                    ${finalizedData.map(d => `<tr><td>${d.om}</td><td>${d.classe}</td><td>${d.material}</td><td>${d.qntOm}</td><td>Finalizado</td></tr>`).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('omSections').insertAdjacentHTML('beforeend', finalHtml);
+            }
+
             document.getElementById('reportDate').textContent = formatDate();
         }
 
