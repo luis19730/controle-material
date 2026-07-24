@@ -1,8 +1,8 @@
 // data.js - Modulo compartilhado: GitHub API sync + localStorage fallback
 const OM_ORDER = [
-    "Bda Inf Amv (OI)","Cia C Bda Inf Amv","2Âº BI Amv","5Âº BI Amv","6Âº BI Amv",
-    "5Âª Bia AAAe Amv","20Âº GAC Amv","12Âª Cia Com Amv","12Âª Cia E Cmb Amv",
-    "12Âº Pel PE Amv","22Âº B Log Amv","1Âº Esqd C Amv"
+    "Bda Inf Amv (OI)","Cia C Bda Inf Amv","2Ã‚Âº BI Amv","5Ã‚Âº BI Amv","6Ã‚Âº BI Amv",
+    "5Ã‚Âª Bia AAAe Amv","20Ã‚Âº GAC Amv","12Ã‚Âª Cia Com Amv","12Ã‚Âª Cia E Cmb Amv",
+    "12Ã‚Âº Pel PE Amv","22Ã‚Âº B Log Amv","1Ã‚Âº Esqd C Amv"
 ];
 const LS_KEY = 'controleMaterial';
 const TOKEN_KEY = 'github_token';
@@ -57,7 +57,7 @@ async function fetchGitHubData() {
     try {
         const timestamp = Date.now();
         const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.dataFile}?t=${timestamp}`;
-        const headers = { 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache, no-store, must-revalidate' };
+        const headers = { 'Accept': 'application/vnd.github.v3+json' };
         const t = _getToken();
         if (t && t.length > 10) headers['Authorization'] = `token ${t}`;
         const resp = await fetch(url, { cache: 'no-store', headers });
