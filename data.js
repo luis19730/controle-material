@@ -1,8 +1,8 @@
 // data.js - Modulo compartilhado: GitHub API sync + localStorage fallback
 const OM_ORDER = [
-    "Bda Inf Amv (OI)","Cia C Bda Inf Amv","2Ã‚Âº BI Amv","5Ã‚Âº BI Amv","6Ã‚Âº BI Amv",
-    "5Ã‚Âª Bia AAAe Amv","20Ã‚Âº GAC Amv","12Ã‚Âª Cia Com Amv","12Ã‚Âª Cia E Cmb Amv",
-    "12Ã‚Âº Pel PE Amv","22Ã‚Âº B Log Amv","1Ã‚Âº Esqd C Amv"
+    "Bda Inf Amv (OI)","Cia C Bda Inf Amv","2º BI Amv","5º BI Amv","6º BI Amv",
+    "5ª Bia AAAe Amv","20º GAC Amv","12ª Cia Com Amv","12ª Cia E Cmb Amv",
+    "12º Pel PE Amv","22º B Log Amv","1º Esqd C Amv"
 ];
 const LS_KEY = 'controleMaterial';
 const TOKEN_KEY = 'github_token';
@@ -200,50 +200,3 @@ function setGitHubToken(token) {
 }
 
 // Token prompt removido - funcionalidade local sem necessidade de token
-
-// ============ Splash / Pagina Rosto ============
-const SPLASH_KEY = 'splash_auth';
-const SPLASH_PASS = '4secamv';
-
-function initSplash() {
-    if (sessionStorage.getItem(SPLASH_KEY) === '1') return;
-    const overlay = document.createElement('div');
-    overlay.className = 'splash-overlay';
-    overlay.id = 'splashOverlay';
-    overlay.innerHTML = `
-        <div class="splash-card">
-            <img src="logo-rosto.png" alt="Logo" class="splash-logo">
-            <div class="splash-title">Controle de Material</div>
-            <div class="splash-subtitle">Bda Inf Amv</div>
-            <div class="splash-input-group">
-                <input type="password" class="splash-input" id="splashPassword" placeholder="Digite a senha" autofocus>
-                <button class="splash-btn" id="splashBtn">Entrar</button>
-            </div>
-            <div class="splash-error" id="splashError"></div>
-        </div>
-        <div class="splash-footer">Sistema de Controle de Material Militar</div>
-    `;
-    document.body.appendChild(overlay);
-    const btn = document.getElementById('splashBtn');
-    const input = document.getElementById('splashPassword');
-    const error = document.getElementById('splashError');
-    function tryLogin() {
-        if (input.value === SPLASH_PASS) {
-            sessionStorage.setItem(SPLASH_KEY, '1');
-            overlay.classList.add('hidden');
-            setTimeout(() => overlay.remove(), 600);
-        } else {
-            error.textContent = 'Senha incorreta!';
-            input.value = '';
-            input.focus();
-            input.style.borderColor = '#c0392b';
-            setTimeout(() => input.style.borderColor = '', 1500);
-        }
-    }
-    btn.addEventListener('click', tryLogin);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
-}
-
-function isSplashAuth() {
-    return sessionStorage.getItem(SPLASH_KEY) === '1';
-}

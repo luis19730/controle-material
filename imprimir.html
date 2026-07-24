@@ -6,13 +6,12 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ImpressÃƒÂ£o OM - Bda Inf Amv</title>
+    <title>Impressão OM - Bda Inf Amv</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="config.js?v=5"></script>
-    <link rel="stylesheet" href="splash.css">
-    <script src="data.js?v=7"></script>
+    <script src="data.js?v=6"></script>
     <style>
         :root {
             --primary: #556b2f; --primary-dark: #3d4f1f; --primary-light: #6b8e23;
@@ -93,19 +92,19 @@
 <body>
     <div class="screen-only">
         <div class="screen-header">
-            <h1>ImpressÃƒÂ£o por OM</h1>
-            <p>Selecione uma OM para gerar relatÃƒÂ³rio individual</p>
+            <h1>Impressão por OM</h1>
+            <p>Selecione uma OM para gerar relatório individual</p>
             <div class="nav-links">
                 <a href="index.html" class="btn btn-back">Consulta</a>
                 <a href="painel.html" class="btn btn-back">Painel</a>
-                <a href="relatorio.html" class="btn btn-back">RelatÃƒÂ³rio</a>
-                <a href="imprimir.html" class="btn btn-back">ImpressÃƒÂ£o por OM</a>
+                <a href="relatorio.html" class="btn btn-back">Relatório</a>
+                <a href="imprimir.html" class="btn btn-back">Impressão por OM</a>
             </div>
         </div>
     </div>
 
     <div class="om-selector" id="omSelector">
-        <h3>Selecione a OM para impressÃƒÂ£o:</h3>
+        <h3>Selecione a OM para impressão:</h3>
         <div class="om-list" id="omList"></div>
     </div>
 
@@ -215,7 +214,6 @@
         }
 
         (async function init() {
-            initSplash();
             const data = await loadData();
             renderAll(data);
         })();

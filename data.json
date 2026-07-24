@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": 55,
     "om": "Bda Inf Amv (OI)",
@@ -79,7 +79,7 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "02 - 02 MAR 26",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
@@ -93,7 +93,7 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "02 - 02 MAR 26",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
@@ -107,7 +107,7 @@
     "qntRecolher": 2,
     "odr": "XX",
     "boletim": "03 - 06 JUN 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
@@ -121,7 +121,7 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "03 - 06 JUN 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
@@ -141,7 +141,7 @@
   },
   {
     "id": 26,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -155,7 +155,7 @@
   },
   {
     "id": 27,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VTP - FIESTA",
     "eb34": "71129749",
@@ -163,13 +163,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "05 - 04 SET 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 28,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VTP - PALIO",
     "eb34": "71100191",
@@ -177,13 +177,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "XX",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 29,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VRE - CIST AGUA",
     "eb34": "17096178",
@@ -191,13 +191,13 @@
     "qntRecolher": 2,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 30,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VRE - 1 A/2T",
     "eb34": "16066595, 16066607",
@@ -205,13 +205,13 @@
     "qntRecolher": 2,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 31,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VTNE - MARRUA",
     "eb34": "12183920",
@@ -219,13 +219,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "08 - 03 SET 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 32,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -239,7 +239,7 @@
   },
   {
     "id": 33,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -253,7 +253,7 @@
   },
   {
     "id": 67,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VTNE - LAND ROVER 130",
     "eb34": "12002345",
@@ -267,7 +267,7 @@
   },
   {
     "id": 68,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VTP - FIESTA",
     "eb34": "71180705",
@@ -281,7 +281,7 @@
   },
   {
     "id": 69,
-    "om": "2º BI Amv",
+    "om": "2? BI Amv",
     "classe": "IX",
     "material": "VTE - AMB SPRINTER",
     "eb34": "73018033",
@@ -295,7 +295,7 @@
   },
   {
     "id": 37,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -309,7 +309,7 @@
   },
   {
     "id": 38,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -323,7 +323,7 @@
   },
   {
     "id": 39,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "II",
     "material": "PLACA DE PROTECAO BALISTICA",
     "eb34": "-",
@@ -337,7 +337,7 @@
   },
   {
     "id": 40,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -351,7 +351,7 @@
   },
   {
     "id": 41,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -365,7 +365,7 @@
   },
   {
     "id": 42,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "IX",
     "material": "VTNE - MARRUA",
     "eb34": "12158872",
@@ -373,13 +373,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "02 - 02 MAR 26",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 43,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "IX",
     "material": "VRE - 1/2T",
     "eb34": "75177436",
@@ -387,13 +387,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 44,
-    "om": "5º BI Amv",
+    "om": "5? BI Amv",
     "classe": "IX",
     "material": "VTNE MBB 5T",
     "eb34": "12070984, 12070972",
@@ -401,13 +401,13 @@
     "qntRecolher": 2,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 45,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -421,7 +421,7 @@
   },
   {
     "id": 46,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -435,7 +435,7 @@
   },
   {
     "id": 47,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -449,7 +449,7 @@
   },
   {
     "id": 48,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -463,7 +463,7 @@
   },
   {
     "id": 49,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -477,7 +477,7 @@
   },
   {
     "id": 50,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "IX",
     "material": "VTNE MBB 5T",
     "eb34": "12035780",
@@ -485,13 +485,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "01 - 25 ABR 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 51,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "IX",
     "material": "VTNE MBB 5T",
     "eb34": "1203578",
@@ -499,13 +499,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "05 - 04 SET 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 52,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "IX",
     "material": "VTP - MOTOCICLETA",
     "eb34": "71083027",
@@ -513,13 +513,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "05 - 04 SET 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 53,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "IX",
     "material": "VTNE - MARRUA",
     "eb34": "12178674, 12178686, 12145796, 12245760",
@@ -527,13 +527,13 @@
     "qntRecolher": 4,
     "odr": "XX",
     "boletim": "05 - 04 SET 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 54,
-    "om": "6º BI Amv",
+    "om": "6? BI Amv",
     "classe": "IX",
     "material": "VTE - CISTERNA",
     "eb34": "12118594",
@@ -541,13 +541,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "05 - 04 SET 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 34,
-    "om": "5ª Bia AAAe Amv",
+    "om": "5? Bia AAAe Amv",
     "classe": "IX",
     "material": "VTNE - MARRUA",
     "eb34": "12274293",
@@ -555,13 +555,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "08 - 03 SET 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 35,
-    "om": "5ª Bia AAAe Amv",
+    "om": "5? Bia AAAe Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -575,7 +575,7 @@
   },
   {
     "id": 36,
-    "om": "5ª Bia AAAe Amv",
+    "om": "5? Bia AAAe Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -589,7 +589,7 @@
   },
   {
     "id": 15,
-    "om": "20º GAC Amv",
+    "om": "20? GAC Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -603,7 +603,7 @@
   },
   {
     "id": 16,
-    "om": "20º GAC Amv",
+    "om": "20? GAC Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -617,7 +617,7 @@
   },
   {
     "id": 1,
-    "om": "12ª Cia Com Amv",
+    "om": "12? Cia Com Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -631,7 +631,7 @@
   },
   {
     "id": 2,
-    "om": "12ª Cia Com Amv",
+    "om": "12? Cia Com Amv",
     "classe": "IX",
     "material": "VTE - COM - MARRUA",
     "eb34": "13259253",
@@ -639,13 +639,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "02 - 02 MAR 26",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 3,
-    "om": "12ª Cia Com Amv",
+    "om": "12? Cia Com Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -659,7 +659,7 @@
   },
   {
     "id": 4,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "IX",
     "material": "VTNE - MARRUA",
     "eb34": "12245695",
@@ -667,13 +667,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "02 - 02 MAR 26",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 5,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "IX",
     "material": "VTP - PALIO",
     "eb34": "FINAL DO CHASSIS: T237924",
@@ -681,13 +681,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "04 - 30 ABR 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 6,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "IX",
     "material": "VTP - KOMBI",
     "eb34": "71133546",
@@ -695,13 +695,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 7,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "IX",
     "material": "VTNE MBB 5T",
     "eb34": "12204298",
@@ -709,13 +709,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 8,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "VI",
     "material": "COLETE SALVA-VIDAS",
     "eb34": "-",
@@ -729,7 +729,7 @@
   },
   {
     "id": 9,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "VI",
     "material": "MOTOR DE POPA",
     "eb34": "-",
@@ -743,7 +743,7 @@
   },
   {
     "id": 10,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "VI",
     "material": "EMBARCACAO DE REC",
     "eb34": "-",
@@ -757,7 +757,7 @@
   },
   {
     "id": 11,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -771,7 +771,7 @@
   },
   {
     "id": 12,
-    "om": "12ª Cia E Cmb Amv",
+    "om": "12? Cia E Cmb Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -785,7 +785,7 @@
   },
   {
     "id": 13,
-    "om": "12º Pel PE Amv",
+    "om": "12? Pel PE Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -799,7 +799,7 @@
   },
   {
     "id": 14,
-    "om": "12º Pel PE Amv",
+    "om": "12? Pel PE Amv",
     "classe": "IX",
     "material": "VTP - FIESTA",
     "eb34": "71152965",
@@ -807,13 +807,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "03 - 06 JUN 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 17,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -827,7 +827,7 @@
   },
   {
     "id": 18,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -841,7 +841,7 @@
   },
   {
     "id": 19,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "IX",
     "material": "VRNE 1T",
     "eb34": "16063206",
@@ -849,13 +849,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "02 - 20 MAIO 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 20,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "IX",
     "material": "VTP - OPALA",
     "eb34": "71048180",
@@ -863,13 +863,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "05 - 04 SET 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 21,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "IX",
     "material": "VTNE - 1T",
     "eb34": "12069272",
@@ -877,13 +877,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "07 - 04 AGO 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 22,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "IX",
     "material": "VTNE - 1T",
     "eb34": "12069272",
@@ -891,13 +891,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "07 - 06 DEZ 24",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 23,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "IX",
     "material": "VTNE - MARRUA",
     "eb34": "12084053",
@@ -905,13 +905,13 @@
     "qntRecolher": 1,
     "odr": "XX",
     "boletim": "08 - 03 SET 25",
-    "obs": "Dcg homologada - Alienar no 22º B Log Amv",
+    "obs": "Dcg homologada - Alienar no 22? B Log Amv",
     "status": "homologada",
     "acao": "alienacao"
   },
   {
     "id": 24,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "II",
     "material": "COLETE BALISTICO",
     "eb34": "-",
@@ -925,7 +925,7 @@
   },
   {
     "id": 25,
-    "om": "22º B Log Amv",
+    "om": "22? B Log Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -939,7 +939,7 @@
   },
   {
     "id": 65,
-    "om": "1º Esqd C Amv",
+    "om": "1? Esqd C Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
@@ -953,7 +953,7 @@
   },
   {
     "id": 66,
-    "om": "1º Esqd C Amv",
+    "om": "1? Esqd C Amv",
     "classe": "II",
     "material": "CAPACETE BALISTICO",
     "eb34": "-",
