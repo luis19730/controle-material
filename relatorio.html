@@ -190,22 +190,24 @@
 
             document.getElementById('omSections').innerHTML = sectionsHtml;
 
-            if (finalizedData.length > 0) {
-                const finalHtml = `
-                    <div class="om-section" id="finalizados_section">
-                        <div class="om-title" style="background:linear-gradient(135deg, var(--accent), var(--accent-light));">Processos Finalizados (${finalizedData.length})</div>
-                        <div class="om-table-wrap">
-                            <table class="om-table">
-                                <thead><tr><th>OM</th><th>Classe</th><th>Material</th><th>QNT na OM</th><th>Processo Finalizado</th></tr></thead>
-                                <tbody>
-                                    ${finalizedData.map(d => `<tr><td>${d.om}</td><td>${d.classe}</td><td>${d.material}</td><td>${d.qntOm}</td><td>Finalizado</td></tr>`).join('')}
-                                </tbody>
-                            </table>
-                        </div>
+            const finalHtml = `
+                <div class="om-section" id="finalizados_section">
+                    <div class="om-title" style="background:linear-gradient(135deg, var(--accent), var(--accent-light));">Consolidacao dos Processos Finalizados (${finalizados})</div>
+                    <div class="om-kpis">
+                        <div class="om-kpi"><div class="om-kpi-value">${finalizados}</div><div class="om-kpi-label">Total Finalizados</div></div>
+                        <div class="om-kpi"><div class="om-kpi-value">${finalizedData.reduce((s, d) => s + (typeof d.qntOm !== 'number' ? 0 : d.qntOm), 0)}</div><div class="om-kpi-label">QNT Total na OM</div></div>
                     </div>
-                `;
-                document.getElementById('omSections').insertAdjacentHTML('beforeend', finalHtml);
-            }
+                    <div class="om-table-wrap">
+                        <table class="om-table">
+                            <thead><tr><th>OM</th><th>Classe</th><th>Material</th><th>QNT na OM</th><th>Processo Finalizado</th></tr></thead>
+                            <tbody>
+                                ${finalizedData.length > 0 ? finalizedData.map(d => `<tr><td>${d.om}</td><td>${d.classe}</td><td>${d.material}</td><td>${d.qntOm}</td><td>Finalizado</td></tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">Nenhum processo finalizado</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            document.getElementById('omSections').insertAdjacentHTML('beforeend', finalHtml);
 
             document.getElementById('reportDate').textContent = formatDate();
         }
