@@ -133,7 +133,6 @@ function startAutoRefresh(intervalMs) {
     if (_autoRefreshTimer) clearInterval(_autoRefreshTimer);
     const interval = intervalMs || 10000;
     _autoRefreshTimer = setInterval(async () => {
-        if (!_isConfigured()) return;
         try {
             const fresh = await fetchGitHubData();
             if (fresh && fresh.length > 0) {
