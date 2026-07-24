@@ -143,14 +143,42 @@
             const activeData = data.filter(d => d.finalizado !== true);
             const allOms = [...new Set(activeData.map(d => d.om))].sort((a, b) => _getOmOrder(a) - _getOmOrder(b));
 
+            const finalizedData = data.filter(d => d.finalizado === true);
+
             document.getElementById('omList').innerHTML = allOms.map(om => {
                 return `<a href="?om=${encodeURIComponent(om)}">${om}</a>`;
-            }).join('');
+            }).join('') + `<a href="?om=finalizados" style="border-left:4px solid var(--accent);background:var(--bg);color:var(--accent);font-weight:800;">Processos Finalizados (${finalizedData.length})</a>`;
 
             const params = new URLSearchParams(window.location.search);
             const selectedOm = params.get('om');
 
-            if (selectedOm && allOms.includes(selectedOm)) {
+            if (selectedOm === 'finalizados') {
+                document.getElementById('omSelector').style.display = 'none';
+                document.getElementById('report').style.display = 'block';
+                document.getElementById('omTitle').textContent = 'PROCESSOS FINALIZADOS';
+
+                const qr = finalizedData.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);
+
+                document.getElementById('omKpis').innerHTML = `
+                    <div class="om-kpi" style="--primary:var(--accent);"><div class="om-kpi-value" style="color:var(--accent);">${finalizedData.length}</div><div class="om-kpi-label">Total Finalizados</div></div>
+                    <div class="om-kpi"><div class="om-kpi-value">${new Set(finalizedData.map(d => d.om)).size}</div><div class="om-kpi-label">OMs Envolvidas</div></div>
+                    <div class="om-kpi"><div class="om-kpi-value">${qr}</div><div class="om-kpi-label">QNT a Recolher</div></div>
+                `;
+
+                document.getElementById('tbodyHomologadas').innerHTML = finalizedData.length > 0
+                    ? finalizedData.map(d => `<tr><td>${d.om}</td><td>${d.classe}</td><td>${d.material}</td><td>${d.qntOm}</td><td>${d.qntRecolher}</td></tr>`).join('')
+                    : '<tr><td colspan="5" style="text-align:center;color:#999;">Nenhum processo finalizado</td></tr>';
+
+                document.getElementById('tableHomologadas').querySelector('thead').innerHTML = '<tr><th>OM</th><th>Classe</th><th>Material</th><th>QNT na OM</th><th>QNT a Recolher</th></tr>';
+
+                const pendSection = document.getElementById('tablePendentes').closest('.report-table-wrap');
+                const pendTitle = pendSection.previousElementSibling;
+                pendTitle.style.display = 'none';
+                pendSection.style.display = 'none';
+
+                document.title = 'Processos Finalizados - Bda Inf Amv';
+                setTimeout(() => window.print(), 500);
+            } else if (selectedOm && allOms.includes(selectedOm)) {
                 document.getElementById('omSelector').style.display = 'none';
                 document.getElementById('report').style.display = 'block';
 
