@@ -130,17 +130,20 @@
     <script>
         async function renderAll(data) {
             const activeData = data.filter(d => d.finalizado !== true);
+            const finalizedData = data.filter(d => d.finalizado === true);
             const total = activeData.length;
             const oms = [...new Set(activeData.map(d => d.om))];
             const homologadas = activeData.filter(d => d.status === 'homologada').length;
             const pendentes = activeData.filter(d => d.status === 'pendente').length;
             const qntRecolher = activeData.reduce((s, d) => s + (typeof d.qntRecolher === 'number' ? d.qntRecolher : 0), 0);
+            const finalizados = finalizedData.length;
 
             document.getElementById('kpiReport').innerHTML = `
                 <div class="kpi-item"><div class="kpi-number">${total}</div><div class="kpi-label">Total de Itens</div></div>
                 <div class="kpi-item"><div class="kpi-number">${oms.length}</div><div class="kpi-label">OMs Envolvidas</div></div>
                 <div class="kpi-item"><div class="kpi-number">${homologadas}</div><div class="kpi-label">DCGs Homologadas</div></div>
                 <div class="kpi-item"><div class="kpi-number">${pendentes}</div><div class="kpi-label">Processos Pendentes</div></div>
+                <div class="kpi-item"><div class="kpi-number" style="color:var(--accent);">${finalizados}</div><div class="kpi-label">Processos Finalizados</div></div>
                 <div class="kpi-item full"><div class="kpi-number">${qntRecolher}</div><div class="kpi-label">QNT Total a Recolher</div></div>
             `;
 
