@@ -1,8 +1,8 @@
 // data.js - Modulo compartilhado: GitHub API sync + localStorage fallback
 const OM_ORDER = [
-    "Bda Inf Amv (OI)","Cia C Bda Inf Amv","2º BI Amv","5º BI Amv","6º BI Amv",
-    "5ª Bia AAAe Amv","20º GAC Amv","12ª Cia Com Amv","12ª Cia E Cmb Amv",
-    "12º Pel PE Amv","22º B Log Amv","1º Esqd C Amv"
+    "Bda Inf Amv (OI)","Cia C Bda Inf Amv","2Âº BI Amv","5Âº BI Amv","6Âº BI Amv",
+    "5Âª Bia AAAe Amv","20Âº GAC Amv","12Âª Cia Com Amv","12Âª Cia E Cmb Amv",
+    "12Âº Pel PE Amv","22Âº B Log Amv","1Âº Esqd C Amv"
 ];
 const LS_KEY = 'controleMaterial';
 const TOKEN_KEY = 'github_token';
