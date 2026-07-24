@@ -200,3 +200,50 @@ function setGitHubToken(token) {
 }
 
 // Token prompt removido - funcionalidade local sem necessidade de token
+
+// ============ Splash / Pagina Rosto ============
+const SPLASH_KEY = 'splash_auth';
+const SPLASH_PASS = '4secamv';
+
+function initSplash() {
+    if (sessionStorage.getItem(SPLASH_KEY) === '1') return;
+    const overlay = document.createElement('div');
+    overlay.className = 'splash-overlay';
+    overlay.id = 'splashOverlay';
+    overlay.innerHTML = `
+        <div class="splash-card">
+            <img src="logo-rosto.png" alt="Logo" class="splash-logo">
+            <div class="splash-title">Controle de Material</div>
+            <div class="splash-subtitle">Bda Inf Amv</div>
+            <div class="splash-input-group">
+                <input type="password" class="splash-input" id="splashPassword" placeholder="Digite a senha" autofocus>
+                <button class="splash-btn" id="splashBtn">Entrar</button>
+            </div>
+            <div class="splash-error" id="splashError"></div>
+        </div>
+        <div class="splash-footer">Sistema de Controle de Material Militar</div>
+    `;
+    document.body.appendChild(overlay);
+    const btn = document.getElementById('splashBtn');
+    const input = document.getElementById('splashPassword');
+    const error = document.getElementById('splashError');
+    function tryLogin() {
+        if (input.value === SPLASH_PASS) {
+            sessionStorage.setItem(SPLASH_KEY, '1');
+            overlay.classList.add('hidden');
+            setTimeout(() => overlay.remove(), 600);
+        } else {
+            error.textContent = 'Senha incorreta!';
+            input.value = '';
+            input.focus();
+            input.style.borderColor = '#c0392b';
+            setTimeout(() => input.style.borderColor = '', 1500);
+        }
+    }
+    btn.addEventListener('click', tryLogin);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+}
+
+function isSplashAuth() {
+    return sessionStorage.getItem(SPLASH_KEY) === '1';
+}

@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script src="config.js?v=5"></script>
-    <script src="data.js?v=6"></script>
+    <link rel="stylesheet" href="splash.css">
+    <script src="data.js?v=7"></script>
     <style>
         :root {
             --primary: #556b2f; --primary-dark: #3d4f1f; --primary-light: #6b8e23;
@@ -272,6 +273,7 @@
         }
 
         (async function init() {
+            initSplash();
             const data = await loadData();
             renderAll(data);
             document.getElementById('currentDate').textContent = formatDate();

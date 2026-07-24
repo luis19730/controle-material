@@ -342,7 +342,8 @@
     </div>
 
     <script src="config.js?v=5"></script>
-    <script src="data.js?v=6"></script>
+    <link rel="stylesheet" href="splash.css">
+    <script src="data.js?v=7"></script>
     <script>
         let data = [];
         let filteredData = [];
@@ -589,6 +590,7 @@
         }
 
         async function init() {
+            initSplash();
             data = await loadData();
             data = sortData(data);
             filteredData = [...data];

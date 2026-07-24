@@ -1,0 +1,117 @@
+.splash-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #2c3e1a 0%, #3d4f1f 30%, #556b2f 60%, #3d4f1f 100%);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.splash-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.splash-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: clamp(30px, 5vw, 50px);
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    max-width: 420px;
+    width: 90%;
+    animation: splashIn 0.6s ease-out;
+}
+@keyframes splashIn {
+    from { transform: scale(0.9) translateY(20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}
+.splash-logo {
+    max-width: clamp(80px, 20vw, 140px);
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+.splash-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1.1em, 3vw, 1.5em);
+    font-weight: 700;
+    color: #2c3e1a;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+.splash-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(0.7em, 1.8vw, 0.85em);
+    color: #5a6b4a;
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+.splash-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.splash-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #d4d9c8;
+    border-radius: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1em;
+    color: #2c3e1a;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    text-align: center;
+    letter-spacing: 2px;
+}
+.splash-input:focus {
+    border-color: #556b2f;
+    box-shadow: 0 0 0 3px rgba(85,107,47,0.15);
+}
+.splash-input::placeholder {
+    letter-spacing: 0.5px;
+    color: #8a9a7a;
+}
+.splash-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #556b2f, #3d4f1f);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+}
+.splash-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(85,107,47,0.4);
+}
+.splash-btn:active {
+    transform: scale(0.97);
+}
+.splash-error {
+    color: #c0392b;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: 10px;
+    min-height: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+.splash-footer {
+    position: absolute;
+    bottom: 20px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7em;
+    letter-spacing: 0.5px;
+}
