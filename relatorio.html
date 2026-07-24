@@ -152,7 +152,7 @@
             document.getElementById('omShortcuts').innerHTML = sortedOms.map(om => {
                 const id = om.replace(/[^a-zA-Z0-9]/g, '_');
                 return `<a class="om-shortcut" href="#om_${id}">${om}</a>`;
-            }).join('');
+            }).join('') + `<a class="om-shortcut" href="#finalizados_section" style="background:var(--accent);color:white;border-color:var(--accent);">Processos Finalizados (${finalizados})</a>`;
 
             let sectionsHtml = '';
             sortedOms.forEach(om => {
