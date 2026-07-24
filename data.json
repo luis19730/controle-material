@@ -964,20 +964,5 @@
     "obs": "Material recolhido ao 1o Dsup",
     "status": "recolhido",
     "acao": "outros"
-  },
-  {
-    "om": "Bda Inf Amv (OI)",
-    "classe": "II",
-    "material": "VTE - CISTERNA",
-    "eb34": "-",
-    "qntOm": "XX",
-    "qntRecolher": "-",
-    "odr": "XX",
-    "boletim": "XX",
-    "obs": "-",
-    "status": "homologada",
-    "acao": "destruicao",
-    "finalizado": true,
-    "id": 70
   }
 ]
